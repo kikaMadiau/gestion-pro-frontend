@@ -43,11 +43,20 @@
                 <div class="sidebar-menu">
                     <ul class="menu">
                         <li class="sidebar-title">Gestion des utilisateur</li>
-                        <li class="sidebar-item">
-                            <a href="/users" data-route="/users" data-target="users.html" class='sidebar-link'>
-                                <i class="icon dripicons-user-group"></i>
+                        <li class="sidebar-item has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="icon dripicons-checklist"></i>
                                 <span>Gérer les utilisateurs</span>
+                                <i class="bi bi-caret-down-fill added-icon"></i>
                             </a>
+                            <ul class="submenu">
+                                <li class="submenu-item">
+                                    <a href="/users" data-route="/users" data-target="users.html">Gérer les utilisateurs</a>
+                                </li>
+                                <li class="submenu-item">
+                                    <a href="/users/toutes" data-route="/users/toutes" data-target="all-users.html">Tous les utilisateurs</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="sidebar-title">Gestion des visites</li>
                         <li class="sidebar-item active">
