@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+    <meta charset="UTF-8">
+    <title>Badge Visiteur</title>
+
+    <style>
+    @import url('https://fonts.cdnfonts.com/css/great-vibes');
+    @import url('https://fonts.cdnfonts.com/css/cooper-hewitt');
+
+    .title-font{
+        font-family: 'Cooper Hewitt', sans-serif;                                            
+        font-weight: 711 !important; 
+    }
+
+    .content-font{
+        font-family: 'Cooper Hewitt', sans-serif;                                            
+        font-weight: 707 !important; 
+    }
+
+    .styled-font{
+        font-family: 'Great Vibes', cursive;
+    }
+
+    body{
+        width:80mm;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align:center;
+    }
+
+    .badge{
+        padding:10px;
+    }
+
+    .header{
+        font-size:12px;
+        font-weight:bold;
+    }
+
+    .subheader{
+        font-size:11px;
+        margin-bottom:10px;
+    }
+
+    .title{
+        font-size:16px;
+        font-weight:bold;
+        margin:10px 0;
+    }
+
+    .info{
+        text-align:center;
+        font-size:13px;
+        margin:6px 0;
+    }
+
+    .qr{
+        margin:15px 0;
+    }
+
+    .footer{
+        font-size:10px;
+        margin-top:10px;
+    }
+
+    hr{
+        border:0;
+        border-top:1px dashed #000;
+        margin:10px 0;
+    }
+
+    </style>
+</head>
+
+<body>
+
+<div class="badge">
+
+    <div class="header title-font">PRÉSIDENCE DE LA RÉPUBLIQUE</div>
+    <div class="subheader">Conseil National de Sécurité</div>
+    <hr>
+    <div class="title title-font">BADGE VISITEUR</div>
+
+    <div class="info"><b>Nom :</b> Glee Sita</div>
+    <div class="info"><b>Visite à :</b> Directeur Technique</div>
+    <div class="info"><b>Date :</b> 07 Avril 2026</div>
+    <div class="info"><b>Heure d'entrée :</b> 14:30</div>
+
+    <div class="qr">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=CNS-2026-00421">
+    </div>
+
+    <div class="footer">ID: CNS-2026-00421</div>
+    <hr>
+
+    <div class="footer">
+        Badge temporaire – À rendre à la sortie
+    </div>
+
+</div>
+
+</body>
+</html>
