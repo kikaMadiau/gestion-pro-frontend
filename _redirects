@@ -1,0 +1,7 @@
+/login  /views/index.html  200
+/dashboard  /views/home.html  200
+/users  /views/users.html  200
+/visites  /views/visites.html  200
+/visites/toutes  /views/all-visites.html  200
+/verification  /views/verification.html  200
+/terminal  /views/page-terminal.html  200

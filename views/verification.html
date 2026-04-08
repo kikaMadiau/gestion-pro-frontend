@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conseil National de Sécurité - Présidence de la République</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/bootstrap.css">
+    <link rel="stylesheet" href="/public/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="/public/css/app.css">
+    <link rel="stylesheet" href="/public/css/override.css">
+    <link rel="stylesheet" href="/public/css/pages/auth.css">
+</head>
+
+<body data-route-page="verification.html">
+    <div id="auth">
+
+        <div class="row h-100">
+            <div class="col-lg-7 d-none d-lg-block">
+                <div id="auth-right">
+                    
+                    <div class="login-left-wrapper">
+                        <div class="login-logo div-img">
+                            <img src="/public/images/logo/logo-final.png" alt="no image">
+                        </div>
+                        <div class="login-left-text">
+                            <h1 class="">Présidence de la République</h1>
+                            <h5 class="styled-font">Conseil National de Sécurité</h5>
+                        </div>
+                    </div>
+                    <footer class="login-footer">
+                        <div class="copyright content-font">
+                            2026 © Conseil National de Sécurité - Tous droits réservés
+                        </div>
+
+                        <div class="flag-bars">
+                            <div class="bar bar-blue"></div>
+                            <div class="bar bar-yellow"></div>
+                            <div class="bar bar-red"></div>
+                        </div>
+                    </footer>
+
+                </div>
+            </div>
+            <div class="col-lg-5 col-12">
+                <div id="auth-left">
+                    <div class="auth-logo"></div>
+
+                    <div class=" text-center">
+
+                        <h4 class="mb-2 auth-title">Code de Verification</h4>
+                        <p class="text-muted small mb-5 auth-subtitle">Saisissez le code à 6 chiffres envoyé à votre appareil</p>
+
+                        <div id="verification-error" class="alert alert-danger d-none mb-3" role="alert"></div>
+                        <div id="verification-otp" class="alert alert-info d-none mb-3" role="status">
+                            Code OTP (test) : <strong id="verification-otp-code"></strong>
+                        </div>
+                        <form id="verification-form" action="javascript:void(0);">
+                            <div class="d-flex justify-content-center align-items-center gap-2 mb-4">
+                                <input type="text" maxlength="1" class="form-control otp-input" placeholder="0">
+                                <input type="text" maxlength="1" class="form-control otp-input" placeholder="0">
+                                <input type="text" maxlength="1" class="form-control otp-input" placeholder="0">
+
+                                <span class="separator">-</span>
+
+                                <input type="text" maxlength="1" class="form-control otp-input" placeholder="0">
+                                <input type="text" maxlength="1" class="form-control otp-input" placeholder="0">
+                                <input type="text" maxlength="1" class="form-control otp-input" placeholder="0">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Vérifier le code</button>
+
+                            <div class="mt-5 small f-20">Vous n'avez pas reçu de code ? <a href="#">Renvoyer</a></div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/public/js/session-user.js"></script>
+    <script src="/public/js/verification.js" defer></script>
+    <script src="/public/js/router.js" defer></script>
+
+</body>
+</html>

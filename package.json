@@ -1,0 +1,8 @@
+{
+  "name": "architecture-frontend",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js"
+  },
+  "dependencies": {}
+}

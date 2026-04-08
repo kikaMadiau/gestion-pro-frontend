@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conseil National de Sécurité - Présidence de la République</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/bootstrap.css">
+
+    <link rel="stylesheet" href="/public/vendors/iconly/bold.css">
+
+    <link rel="stylesheet" href="/public/vendors/perfect-scrollbar/perfect-scrollbar.css">
+
+    <!-- Datepicker CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker-bs5.min.css">
+
+    <link rel="stylesheet" href="/public/vendors/dripicons/webfont.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/public/css/app.css">
+    <link rel="stylesheet" href="/public/css/override.css">
+    <link rel="shortcut icon" href="/public/images/favicon.svg" type="image/x-icon">
+    <script src="/public/js/auth-guard.js" defer></script>
+</head>
+
+<body data-route-page="visites.html" data-protected="true">
+    <div id="app">
+        <div id="sidebar" class="active">
+            <div class="sidebar-wrapper active">
+                <div class="sidebar-header">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="logo">
+                            <a href="/dashboard" data-route="/dashboard" data-target="home.html">
+                                <img src="/public/images/logo/logo-final.png" alt="Logo" srcset="">
+                            </a>
+                        </div>
+                        <div class="toggler">
+                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- left menu bar -->
+                <div class="sidebar-menu">
+                    <ul class="menu">
+
+                        <li class="sidebar-title">Gestion des utilisateur</li>
+
+                        <li class="sidebar-item">
+                            <a href="/users" data-route="/users" data-target="users.html" class='sidebar-link'>
+                                <i class="icon dripicons-user-group"></i>
+                                <span>Gérer les utilisateurs</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-title">Gestion des visites</li>
+
+                        <li class="sidebar-item">
+                            <a href="/dashboard" data-route="/dashboard" data-target="home.html" class='sidebar-link'>
+                                <i class="icon dripicons-graph-pie"></i>
+                                <span>Tableau de bord</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="icon dripicons-checklist"></i>
+                                <span>Gérer mes visites</span>
+                                <i class="bi bi-caret-down-fill added-icon"></i>
+                            </a>
+                            <ul class="submenu">
+                                <li class="submenu-item active">
+                                    <a href="/visites" data-route="/visites" data-target="visites.html">Visites du jours</a>
+                                </li>
+                                <li class="submenu-item">
+                                    <a href="/visites/toutes" data-route="/visites/toutes" data-target="all-visites.html">Toutes les visites</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="sidebar-title">Gestion des Courriers</li>
+
+                        <li class="sidebar-item">
+                            <a href="#" class='sidebar-link'>
+                                <i class="icon dripicons-meter"></i>
+                                <span>Tableau de bord</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="#" class='sidebar-link'>
+                                <i class="icon dripicons-archive"></i>
+                                <span>Gérer mes courriers</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- end left menu bar -->
+
+                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+            </div>
+        </div>
+
+        <div class="">
+            <header class='mb-3'>
+                <nav class="navbar navbar-expand navbar-light white-bg">
+                    <div class="container-fluid">
+                        <a href="#" class="burger-btn d-block">
+                            <i class="bi bi-justify fs-3"></i>
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                                
+                                <!-- NOTIFICATIONS CHAT -->
+                                <li class="nav-item dropdown me-1">
+                                    <a class="nav-link active dropdown-toggle relative-wrapper" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class='bi bi-chat bi-sub fs-4 text-gray-600'></i>
+                                        <span class="badge bg-danger absolute-badge">1</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                        <li>
+                                            <h6 class="dropdown-header">Courriers</h6>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Pas de nouveau courrier</a></li>
+                                    </ul>
+                                </li>
+                                <!-- END NOTIFICATIONS CHAT -->
+
+                                <!-- NOTIFICATIONS COURRIERS -->
+                                <li class="nav-item dropdown me-1">
+                                    <a class="nav-link active dropdown-toggle relative-wrapper" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class='bi bi-inboxes bi-sub fs-4 text-gray-600'></i>
+                                        <span class="badge bg-secondary absolute-badge">0</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                        <li>
+                                            <h6 class="dropdown-header">Courriers</h6>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Pas de nouveau courrier</a></li>
+                                    </ul>
+                                </li>
+                                <!-- END NOTIFICATIONS COURRIERS -->
+
+                                <!-- NOTIFICATIONS VISITS -->
+                                <li class="nav-item dropdown me-3">
+                                    <a class="nav-link active dropdown-toggle relative-wrapper" href="#" data-bs-toggle="dropdown"aria-expanded="false">
+                                        <i class='bi bi-bell bi-sub fs-4 text-gray-600'></i>
+                                        <span class="badge bg-danger absolute-badge">4</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                        <li>
+                                            <h6 class="dropdown-header">Notifications</h6>
+                                        </li>
+                                        <li><a class="dropdown-item">No notification available</a></li>
+                                    </ul>
+                                </li>
+                                <!-- END NOTIFICATIONS VISITS -->
+
+                            </ul>
+                            <div class="dropdown">
+                                <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="user-menu d-flex">
+                                        <div class="user-name text-end me-3">
+                                            <h6 class="mb-0 text-gray-600 user-name-value">—</h6>
+                                            <p class="mb-0 text-sm text-gray-600 user-direction-value">—</p>
+                                        </div>
+                                        <div class="user-img d-flex align-items-center">
+                                            <div class="avatar avatar-md">
+                                                <img src="/public/images/faces/1.jpg">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                    <li><a class="dropdown-item" href="#">
+                                        <i class="icon-mid bi bi-person me-2"></i> Mon Profile</a></li>
+                                    <li><a class="dropdown-item" href="#">
+                                        <i class="icon-mid bi bi-gear me-2"></i> Reglages</a></li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/login" data-route="/login" data-target="index.html">
+                                            <i class="icon-mid bi bi-box-arrow-left me-2"></i> Déconnexion 
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+        </div>
+
+        <div id="main">
+            <div class="page-heading">
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-md-6 order-md-1 order-last">
+                            <h3>Visites du jour</h3>
+                        </div>
+                        <div class="col-12 col-md-6 order-md-2 order-first">
+                            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/dashboard" data-route="/dashboard" data-target="home.html">Tableau de bord</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Visites du jour</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="row" id="attente">
+                    <div class="col-12">
+                        <div class="card" data-pending-section id="visites-pending-section">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h4>Visites en attente</h4>
+                                <small class="text-muted" data-pending-count>0 en attente</small>
+                            </div>
+                            <div class="card-content pb-4">
+                                <div data-pending-list>
+                                    <div class="recent-message d-flex px-4 py-3 relative-wrapper profile-card">
+                                        <div class="name ms-4">
+                                            <p class="text-muted mb-0 text-center w-100">Chargement des visites en attente…</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <section class="section">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+
+                                    <div class="d-flex align-items-center flex-wrap gap-2">
+
+                                        <form class="d-flex align-items-center gap-3 flex-wrap form-wrapper" id="status-filter-form">
+                                            <div class="input-group">
+                                                <label class="input-group-text" for="status-filter">Status</label>
+                                                <select class="form-select" id="status-filter">
+                                                    <option value="">-- Tous --</option>
+                                                    <option value="pending">En cours</option>
+                                                    <option value="closed">Clôturé</option>
+                                                    <option value="canceled">Annulé</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-primary"><i class="bi bi-send-check"></i></button>
+                                            </div>
+                                        </form>
+
+                                        <form class="d-flex align-items-center gap-3 flex-wrap form-wrapper" id="search-form">
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                                <input type="text" class="form-control" id="search-input" placeholder="Rechercher..." aria-label="Rechercher">
+                                                <button class="btn btn-primary" type="button" id="search-button"><i class="bi bi-send-check"></i></button>
+                                            </div>
+                                        </form>
+
+                                        <div class="d-flex align-items-center gap-3 flex-wrap form-wrapper">
+                                            <div class="dropdown">
+                                                <button class="btn btn-primary dropdown-toggle me-1" type="button"
+                                                    id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    Télécharger
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="#" id="download-csv"><i class="bi bi-download"></i> Rapport csv</a>
+                                                    <a class="dropdown-item" href="#" id="download-pdf"><i class="bi bi-download"></i> Rapport pdf</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex align-items-center gap-3 flex-wrap form-wrapper ms-auto">
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVISITOR">
+                                                <i class="bi bi-person-plus"></i> Ajouter une visite
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="card-body">
+                                    <div id="visits-error" class="alert alert-warning d-none" role="alert"></div>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-lg">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">#</th>
+                                                    <th>Visiteur</th>
+                                                    <th>Téléphone</th>
+                                                    <th>Email</th>
+                                                    <th>Objet</th>
+                                                    <th class="text-center">Rendez-vous</th>
+                                                    <th class="text-center">Statut</th>
+                                                    <th class="text-center">Priorité</th>
+                                                    <th class="text-center">Entrée</th>
+                                                    <th class="text-center">Sortie</th>
+                                                    <th class="text-center">Durée</th>
+                                                    <th class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="visits-today-body">
+                                                <tr>
+                                                    <td colspan="12" class="text-center text-muted py-4">
+                                                        Chargement des visites du jour…
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <!-- PAGINATION -->
+                                    <div class="d-flex justify-content-end mt-3">
+                                        <nav>
+                                            <ul class="pagination pagination-sm mb-0" id="pagination-container">
+                                                <!-- Dynamic pagination -->
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                    <!-- END PAGINATION -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="text-center">
+                        <p class="content-font">2026 © Conseil National de Sécurité - Tous droits réservés</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- ALL MODALS -->
+
+    <!-- VISITOR'S ACCESS TRACKING MODAL -->
+    <div class="modal fade text-left" id="visitor-progression" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel17" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title w-100 text-center" id="myModalLabel17">Progression du visiteur</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x-circle"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="visit-progression-content">
+                        <p class="text-center text-muted">Chargement des détails...</p>
+                    </div>
+                </div>
+                <div class="modal-footer pd-0 full-modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                        <span class="d-none d-sm-block">Fermer</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END VISITOR'S ACCESS TRACKING MODAL -->
+
+    <!-- ADD A VISITOR MODAL -->
+    <div class="modal fade" id="addVISITOR" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title w-100 text-center" id="myModalLabel17">Créer un rendez-vous</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x-circle"></i>
+                    </button>
+                </div>
+                <div class="modal-body pd-20">
+                    <form id="add-visit-form" class="row gx-3 gy-2" novalidate method="post">
+                        <div id="add-visit-feedback" class="alert alert-danger d-none" role="alert"></div>
+                        <div id="add-visit-success" class="alert alert-success d-none" role="status"></div>
+                        
+                        <div class="col-sm-12 mb-3">
+                            <label class="form-label">Nom complet <span class="text-danger">*</span></label>
+                            <div class="form-group position-relative has-icon-left">
+                                <input id="visitor-full-name"  type="text" name="visitor_name" class="form-control" placeholder="Jean Martin" required>
+                                <div class="form-control-icon">
+                                    <i class="bi bi-person-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-12 mb-3">
+                            <label class="form-label">Téléphone <span class="text-danger">*</span></label>
+                            <div class="form-group position-relative has-icon-left">
+                                <input id="visitor-phone" type="tel" name="visitor_phone" class="form-control" placeholder="+243820000000" required>
+                                <div class="form-control-icon">
+                                    <i class="bi bi-telephone"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-12 mb-3">
+                            <label class="form-label">Raison du rendez-vous <span class="text-danger">*</span></label>
+                            <div class="form-group position-relative has-icon-left">
+                                <input id="visitor-purpose"  type="text" name="purpose" class="form-control" placeholder="Rencontre avec la direction" required>
+                                <div class="form-control-icon">
+                                    <i class="bi bi-info-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-12 mb-3">
+                            <label class="form-label">Date et heure du rendez-vous <span class="text-danger">*</span></label>
+                            <div class="form-group position-relative has-icon-left">
+                                <input id="visitor-date" type="datetime-local" name="scheduled_at" class="form-control" required>
+                                <div class="form-control-icon">
+                                    <i class="bi bi-calendar-event"></i>
+                                </div>
+                            </div>
+                            <small class="text-muted">Format: JJ/MM/AAAA HH:MM</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer pd-5">
+                    <div class="d-grid gap-2 w-100" style="grid-template-columns: 1fr 1fr;">
+                        <button type="button" class="btn btn-danger ml-1" data-bs-dismiss="modal">
+                            <span class="d-none d-sm-block">Annuler</span>
+                        </button>
+                        <button type="submit" form="add-visit-form" id="add-visit-submit" class="btn btn-primary ml-1">
+                            <span class="d-none d-sm-block">Créer le rendez-vous</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END ADD A VISITOR MODAL -->
+
+    <!-- DELETE/CANCEL MODAL -->
+    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title w-100 text-center" id="myModalLabel17">Avis d'annulation</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x-circle"></i>
+                    </button>
+                </div>
+                <div class="modal-body pd-20">
+                    <div class="col-sm-12 mb-3 text-center">
+                        <i class="bi bi-x-octagon text-danger fs-1"></i>
+                        <h4 class="text-muted text-md">Êtes-vous sûr d'annuler <br/>cette visite ?</h4>
+                    </div>
+                </div>
+                <div class="modal-footer pd-5">
+                    <div class="d-grid gap-2 w-100" style="grid-template-columns: 1fr 1fr;">
+                        <button type="button" class="btn btn-danger ml-1" data-bs-dismiss="modal">
+                            <span class="d-none d-sm-block">Non</span>
+                        </button>
+                        <button type="button" class="btn btn-primary ml-1" id="confirm-cancel-button">
+                            <span class="d-none d-sm-block">Oui, annuler</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END DELETE/CANCEL MODAL -->
+
+    <!-- END ALL MODALS -->
+
+    <script src="/public/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="/public/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/js/session-user.js" defer></script>
+    <script src="/public/js/user-menu.js" defer></script>
+    <script src="/public/js/role-menu.js" defer></script>
+    <script src="/public/js/main.js"></script>
+    <script src="/public/js/router.js" defer></script>
+    <script src="/public/js/pending-visits.js" defer></script>
+
+    <!-- Script principal pour la gestion des visites -->
+    <script>
+    (function() {
+        'use strict';
+
+        // Configuration API
+        const API_BASE_URL = 'http://127.0.0.1:8000';
+        const ADD_VISIT_URL = `${API_BASE_URL}/audiences/create`;
+        const TODAY_VISITS_URL = `${API_BASE_URL}/api/audiences/dashboard/my/today`;
+        const DEFAULT_VISIT_TYPE = 'SCHEDULED';
+
+        // DOM Elements
+        const visitsTableBody = document.getElementById('visits-today-body');
+        const statusFilter = document.getElementById('status-filter');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const statusFilterForm = document.getElementById('status-filter-form');
+        const paginationContainer = document.getElementById('pagination-container');
+        const visitsError = document.getElementById('visits-error');
+        
+        // State
+        let currentVisits = [];
+        let currentPage = 1;
+        let itemsPerPage = 10;
+        let currentStatus = '';
+        let currentSearch = '';
+        let currentCancelVisitId = null;
+
+        // Helper Functions
+        const getAuthToken = () => localStorage.getItem('authToken');
+
+        const showError = (message) => {
+            if (visitsError) {
+                visitsError.innerHTML = message;
+                visitsError.classList.remove('d-none');
+                setTimeout(() => {
+                    visitsError.classList.add('d-none');
+                }, 8000);
+            }
+        };
+
+        const hideError = () => {
+            if (visitsError) {
+                visitsError.classList.add('d-none');
+            }
+        };
+
+        const showMessageRow = (message, isError = false) => {
+            if (visitsTableBody) {
+                visitsTableBody.innerHTML = `<tr><td colspan="12" class="text-center ${isError ? 'text-danger' : 'text-muted'} py-4">${escapeHtml(message)}</div></div>`;
+            }
+        };
+
+        const showLoadingRow = () => {
+            if (visitsTableBody) {
+                visitsTableBody.innerHTML = `<tr><td colspan="12" class="text-center py-4"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Chargement...</span></div></div></div>`;
+            }
+        };
+
+        const handleUnauthorized = (status) => {
+            if (status === 401 && typeof window.handleUnauthorizedResponseStatus === 'function') {
+                return window.handleUnauthorizedResponseStatus(status);
+            }
+            if (status === 401) {
+                localStorage.removeItem('authToken');
+                window.location.href = '/login';
+                return true;
+            }
+            return false;
+        };
+
+        const escapeHtml = (text) => {
+            if (!text) return '—';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        };
+
+        const formatDate = (dateString) => {
+            if (!dateString) return '—';
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleString('fr-FR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            } catch {
+                return dateString;
+            }
+        };
+
+        const formatDuration = (entryTime, exitTime) => {
+            if (!entryTime || !exitTime) return '—';
+            try {
+                const entry = new Date(entryTime);
+                const exit = new Date(exitTime);
+                const diffMs = exit - entry;
+                const diffMins = Math.floor(diffMs / 60000);
+                if (diffMins < 60) return `${diffMins} min`;
+                const hours = Math.floor(diffMins / 60);
+                const mins = diffMins % 60;
+                return `${hours}h ${mins}min`;
+            } catch {
+                return '—';
+            }
+        };
+
+        const getStatusBadge = (status) => {
+            const statusLower = (status || '').toLowerCase();
+            const badges = {
+                'pending': '<span class="badge bg-warning text-dark">En attente</span>',
+                'ongoing': '<span class="badge bg-info text-dark">En cours</span>',
+                'closed': '<span class="badge bg-success">Terminé</span>',
+                'canceled': '<span class="badge bg-danger">Annulé</span>',
+                'cancelled': '<span class="badge bg-danger">Annulé</span>',
+                'registered': '<span class="badge bg-primary">Enregistré</span>',
+                'confirmed': '<span class="badge bg-success">Confirmé</span>',
+                'delayed': '<span class="badge bg-warning">Retardé</span>'
+            };
+            return badges[statusLower] || `<span class="badge bg-secondary">${status || 'Inconnu'}</span>`;
+        };
+
+        const getPriorityBadge = (priority) => {
+            const priorityLower = (priority || '').toLowerCase();
+            if (priorityLower === 'high' || priorityLower === 'haute' || parseInt(priority) > 70) {
+                return '<span class="badge bg-danger">Haute</span>';
+            } else if (priorityLower === 'medium' || priorityLower === 'moyenne' || parseInt(priority) > 30) {
+                return '<span class="badge bg-warning text-dark">Moyenne</span>';
+            }
+            return '<span class="badge bg-secondary">Normale</span>';
+        };
+
+        // Filter visits
+        const filterVisits = () => {
+            let filtered = [...currentVisits];
+            
+            if (currentStatus) {
+                filtered = filtered.filter(visit => visit.status === currentStatus);
+            }
+            
+            if (currentSearch) {
+                const searchLower = currentSearch.toLowerCase();
+                filtered = filtered.filter(visit => 
+                    (visit.visitor_name?.toLowerCase().includes(searchLower) || false) ||
+                    (visit.visitor_phone?.includes(searchLower) || false) ||
+                    (visit.purpose?.toLowerCase().includes(searchLower) || false)
+                );
+            }
+            
+            return filtered;
+        };
+
+        // Render pagination
+        const renderPagination = (totalItems) => {
+            if (!paginationContainer) return;
+            
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+            
+            let paginationHtml = '<ul class="pagination pagination-sm mb-0">';
+            
+            paginationHtml += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${currentPage - 1}">Précédent</a>
+            </li>`;
+            
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, currentPage + 2);
+            
+            if (startPage > 1) {
+                paginationHtml += `<li class="page-item"><a class="page-link" href="#" data-page="1">1</a></li>`;
+                if (startPage > 2) paginationHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHtml += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+                    <a class="page-link" href="#" data-page="${i}">${i}</a>
+                </li>`;
+            }
+            
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) paginationHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                paginationHtml += `<li class="page-item"><a class="page-link" href="#" data-page="${totalPages}">${totalPages}</a></li>`;
+            }
+            
+            paginationHtml += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${currentPage + 1}">Suivant</a>
+            </li>`;
+            
+            paginationHtml += '</ul>';
+            paginationContainer.innerHTML = paginationHtml;
+            
+            document.querySelectorAll('#pagination-container .page-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = parseInt(link.dataset.page);
+                    if (page && !isNaN(page) && page !== currentPage && page >= 1 && page <= totalPages) {
+                        currentPage = page;
+                        renderVisits();
+                    }
+                });
+            });
+        };
+
+        // Render visits table
+        const renderVisits = () => {
+            if (!visitsTableBody) return;
+            
+            const filtered = filterVisits();
+            const totalItems = filtered.length;
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const paginatedVisits = filtered.slice(startIndex, startIndex + itemsPerPage);
+            
+            if (paginatedVisits.length === 0) {
+                showMessageRow('Aucune visite trouvée');
+                renderPagination(0);
+                return;
+            }
+            
+            visitsTableBody.innerHTML = paginatedVisits.map((visit, index) => {
+                const globalIndex = startIndex + index + 1;
+                return `
+                    <tr data-visit-id="${visit.id}">
+                        <td class="text-center">${globalIndex}</td>
+                        <td><p class="mb-0"><strong>${escapeHtml(visit.visitor_name)}</strong></p></td>
+                        <td><p class="mb-0">${escapeHtml(visit.visitor_phone)}</p></td>
+                        <td><p class="mb-0">${escapeHtml(visit.visitor_email || '—')}</p></td>
+                        <td><p class="mb-0">${escapeHtml(visit.purpose)}</p></td>
+                        <td class="text-center">${formatDate(visit.scheduled_at)}</div>
+                        <td class="text-center">${getStatusBadge(visit.status)}</div>
+                        <td class="text-center">${getPriorityBadge(visit.priority_score || visit.priority)}</div>
+                        <td class="text-center">${formatDate(visit.entry_time)}</div>
+                        <td class="text-center">${formatDate(visit.exit_time)}</div>
+                        <td class="text-center">${formatDuration(visit.entry_time, visit.exit_time)}</div>
+                        <td class="text-center">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item view-progression" href="#" data-visit-id="${visit.id}"><i class="bi bi-eye"></i> Voir progression</a></li>
+                                    ${visit.status !== 'canceled' && visit.status !== 'cancelled' ? `<li><a class="dropdown-item cancel-visit" href="#" data-visit-id="${visit.id}" data-visitor-name="${escapeHtml(visit.visitor_name)}"><i class="bi bi-x-circle"></i> Annuler</a></li>` : ''}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            renderPagination(totalItems);
+            
+            // Attach event handlers
+            document.querySelectorAll('.view-progression').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const visitId = btn.dataset.visitId;
+                    viewProgression(visitId);
+                });
+            });
+            
+            document.querySelectorAll('.cancel-visit').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const visitId = btn.dataset.visitId;
+                    currentCancelVisitId = visitId;
+                    const cancelModal = new bootstrap.Modal(document.getElementById('delete-modal'));
+                    cancelModal.show();
+                });
+            });
+        };
+
+        // Load today's visits
+        const loadTodayVisits = async () => {
+            const token = getAuthToken();
+            if (!token) {
+                showMessageRow('Connectez-vous pour voir les visites.', true);
+                return;
+            }
+            
+            showLoadingRow();
+            
+            try {
+                const response = await fetch(TODAY_VISITS_URL, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (handleUnauthorized(response.status)) return;
+                
+                if (!response.ok) {
+                    throw new Error(`Erreur ${response.status}`);
+                }
+                
+                const data = await response.json();
+                currentVisits = data.data || data.audiences || data.visits || [];
+                currentPage = 1;
+                renderVisits();
+            } catch (error) {
+                console.error('Chargement des visites échoué', error);
+                showMessageRow('Impossible de charger les visites. Veuillez réessayer.', true);
+            }
+        };
+
+        // Add visit handler - Version avec gestion d'erreur user-friendly
+        const setupAddVisitForm = () => {
+            const form = document.getElementById('add-visit-form');
+            if (!form) return;
+            
+            const feedbackBox = document.getElementById('add-visit-feedback');
+            const successBox = document.getElementById('add-visit-success');
+            const submitButton = document.getElementById('add-visit-submit');
+            const modalElement = document.getElementById('addVISITOR');
+            
+            const showFeedback = (message, isError = true) => {
+                if (feedbackBox) {
+                    feedbackBox.innerHTML = message;
+                    feedbackBox.classList.remove('d-none');
+                    if (isError) {
+                        feedbackBox.classList.add('alert-danger');
+                        feedbackBox.classList.remove('alert-success');
+                    } else {
+                        feedbackBox.classList.add('alert-success');
+                        feedbackBox.classList.remove('alert-danger');
+                    }
+                }
+                if (successBox) successBox.classList.add('d-none');
+            };
+            
+            const hideFeedback = () => {
+                if (feedbackBox) feedbackBox.classList.add('d-none');
+                if (successBox) successBox.classList.add('d-none');
+            };
+            
+            const hideModal = () => {
+                if (modalElement) {
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    if (modalInstance) modalInstance.hide();
+                }
+                form.reset();
+                form.classList.remove('was-validated');
+                hideFeedback();
+            };
+            
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                hideFeedback();
+                
+                if (!form.checkValidity()) {
+                    form.classList.add('was-validated');
+                    return;
+                }
+                
+                const token = getAuthToken();
+                if (!token) {
+                    showFeedback('Veuillez vous reconnecter pour créer une visite.');
+                    return;
+                }
+                
+                // Récupérer les valeurs
+                const visitorName = document.getElementById('visitor-full-name')?.value?.trim();
+                const visitorPhone = document.getElementById('visitor-phone')?.value?.trim();
+                const purpose = document.getElementById('visitor-purpose')?.value?.trim();
+                let scheduledAtRaw = document.getElementById('visitor-date')?.value;
+                
+                // Validation
+                if (!visitorName) {
+                    showFeedback('Le nom du visiteur est requis.');
+                    return;
+                }
+                if (!visitorPhone) {
+                    showFeedback('Le téléphone du visiteur est requis.');
+                    return;
+                }
+                if (!purpose) {
+                    showFeedback('La raison du rendez-vous est requise.');
+                    return;
+                }
+                if (!scheduledAtRaw) {
+                    showFeedback('La date et l\'heure du rendez-vous sont requises.');
+                    return;
+                }
+                
+                // Formatage de la date
+                let scheduledAt;
+                try {
+                    const scheduledDate = new Date(scheduledAtRaw);
+                    if (isNaN(scheduledDate.getTime())) {
+                        throw new Error('Date invalide');
+                    }
+                    scheduledAt = scheduledDate.toISOString();
+                } catch (error) {
+                    showFeedback('Format de date invalide. Veuillez sélectionner une date et heure valides.');
+                    return;
+                }
+                
+                const payload = {
+                    visitor_name: visitorName,
+                    visitor_phone: visitorPhone,
+                    purpose: purpose,
+                    scheduled_at: scheduledAt,
+                    type: DEFAULT_VISIT_TYPE
+                };
+                
+                console.log('Payload envoyé:', payload);
+                
+                if (submitButton) {
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Création...';
+                }
+                
+                try {
+                    const response = await fetch(ADD_VISIT_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (handleUnauthorized(response.status)) return;
+                    
+                    let responseData;
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        responseData = await response.json();
+                    } else {
+                        responseData = await response.text();
+                    }
+                    
+                    console.log('Réponse API:', response.status, responseData);
+                    
+                    if (!response.ok) {
+                        // Gestion spécifique des erreurs 500
+                        if (response.status === 500) {
+                            const errorMsg = responseData?.message || responseData?.error || responseData;
+                            
+                            // Détection de l'erreur "aucune étape définie pour la direction"
+                            if (typeof errorMsg === 'string' && errorMsg.includes('Aucune étape définie pour la direction')) {
+                                const match = errorMsg.match(/direction\s+(.+?)(?:\.|$)/);
+                                const directionName = match ? match[1] : 'cette direction';
+                                
+                                showFeedback(
+                                    `<div class="text-center">
+                                        <i class="bi bi-gear fs-1 d-block mb-2"></i>
+                                        <strong>Configuration manquante</strong><br>
+                                        Le workflow n'est pas configuré pour la direction <strong>"${escapeHtml(directionName)}"</strong>.<br>
+                                        <small class="d-block mt-2 text-muted">Veuillez contacter l'administrateur pour configurer les étapes de validation.</small>
+                                     </div>`,
+                                    true
+                                );
+                            } else {
+                                showFeedback(
+                                    `<div class="text-center">
+                                        <i class="bi bi-exclamation-triangle fs-1 d-block mb-2"></i>
+                                        <strong>Erreur technique</strong><br>
+                                        Une erreur interne est survenue. L'équipe technique a été notifiée.<br>
+                                        <small class="d-block mt-2 text-muted">Veuillez réessayer plus tard.</small>
+                                     </div>`,
+                                    true
+                                );
+                            }
+                        } 
+                        // Gestion des erreurs 400 (Bad Request)
+                        else if (response.status === 400) {
+                            const errorMsg = responseData?.message || responseData?.error || 'Données invalides';
+                            showFeedback(
+                                `<div class="text-center">
+                                    <i class="bi bi-file-earmark-excel fs-1 d-block mb-2"></i>
+                                    <strong>Données invalides</strong><br>
+                                    ${escapeHtml(errorMsg)}
+                                 </div>`,
+                                true
+                            );
+                        }
+                        // Gestion des erreurs 403 (Forbidden)
+                        else if (response.status === 403) {
+                            showFeedback(
+                                `<div class="text-center">
+                                    <i class="bi bi-shield-lock fs-1 d-block mb-2"></i>
+                                    <strong>Accès refusé</strong><br>
+                                    Vous n'avez pas les droits nécessaires pour créer une visite.
+                                 </div>`,
+                                true
+                            );
+                        }
+                        // Autres erreurs
+                        else {
+                            const errorMessage = responseData?.message || responseData?.error || `Erreur ${response.status}`;
+                            showFeedback(
+                                `<div class="text-center">
+                                    <i class="bi bi-bug fs-1 d-block mb-2"></i>
+                                    <strong>Erreur</strong><br>
+                                    ${escapeHtml(errorMessage)}
+                                 </div>`,
+                                true
+                            );
+                        }
+                        return;
+                    }
+                    
+                    // Succès
+                    showFeedback(
+                        `<div class="text-center">
+                            <i class="bi bi-check-circle-fill text-success fs-1 d-block mb-2"></i>
+                            <strong>Rendez-vous créé avec succès !</strong><br>
+                            Un email de confirmation a été envoyé au visiteur.
+                         </div>`,
+                        false
+                    );
+                    
+                    await loadTodayVisits();
+                    
+                    setTimeout(() => {
+                        hideModal();
+                    }, 2500);
+                    
+                } catch (error) {
+                    console.error('Erreur réseau:', error);
+                    showFeedback(
+                        `<div class="text-center">
+                            <i class="bi bi-wifi-off fs-1 d-block mb-2"></i>
+                            <strong>Erreur de connexion</strong><br>
+                            Impossible de contacter le serveur. Vérifiez votre connexion internet.
+                         </div>`,
+                        true
+                    );
+                } finally {
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = '<span class="d-none d-sm-block">Créer le rendez-vous</span>';
+                    }
+                }
+            });
+            
+            if (modalElement) {
+                modalElement.addEventListener('hidden.bs.modal', () => {
+                    form.reset();
+                    form.classList.remove('was-validated');
+                    hideFeedback();
+                });
+            }
+        };
+
+        // View progression handler
+        const viewProgression = async (visitId) => {
+            const modalContent = document.getElementById('visit-progression-content');
+            if (!modalContent) return;
+            
+            modalContent.innerHTML = '<p class="text-center text-muted">Chargement des détails...</p>';
+            const modal = new bootstrap.Modal(document.getElementById('visitor-progression'));
+            modal.show();
+            
+            const token = getAuthToken();
+            if (!token) {
+                modalContent.innerHTML = '<p class="text-center text-danger">Veuillez vous reconnecter</p>';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/audiences/${visitId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) throw new Error('Erreur chargement');
+                
+                const visit = await response.json();
+                
+                modalContent.innerHTML = `
+                    <div class="timeline-steps">
+                        <div class="timeline-step">
+                            <div class="timeline-icon bg-success text-white">
+                                <i class="bi bi-calendar-check"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h6>Rendez-vous programmé</h6>
+                                <small>${formatDate(visit.scheduled_at)}</small>
+                            </div>
+                        </div>
+                        ${visit.entry_time ? `
+                        <div class="timeline-step">
+                            <div class="timeline-icon bg-info text-white">
+                                <i class="bi bi-box-arrow-in-right"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h6>Entrée du visiteur</h6>
+                                <small>${formatDate(visit.entry_time)}</small>
+                            </div>
+                        </div>
+                        ` : ''}
+                        ${visit.exit_time ? `
+                        <div class="timeline-step">
+                            <div class="timeline-icon bg-secondary text-white">
+                                <i class="bi bi-box-arrow-right"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h6>Sortie du visiteur</h6>
+                                <small>${formatDate(visit.exit_time)}</small>
+                            </div>
+                        </div>
+                        ` : ''}
+                    </div>
+                    <hr>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <small class="text-muted">Visiteur</small>
+                            <p><strong>${escapeHtml(visit.visitor_name)}</strong></p>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted">Téléphone</small>
+                            <p><strong>${escapeHtml(visit.visitor_phone)}</strong></p>
+                        </div>
+                        <div class="col-12">
+                            <small class="text-muted">Objet</small>
+                            <p><strong>${escapeHtml(visit.purpose)}</strong></p>
+                        </div>
+                    </div>
+                `;
+                
+                if (!document.getElementById('timeline-styles')) {
+                    const style = document.createElement('style');
+                    style.id = 'timeline-styles';
+                    style.textContent = `
+                        .timeline-steps { position: relative; padding-left: 30px; }
+                        .timeline-step { position: relative; padding-bottom: 25px; }
+                        .timeline-step:before { content: ''; position: absolute; left: -20px; top: 25px; bottom: 0; width: 2px; background: #e0e0e0; }
+                        .timeline-step:last-child:before { display: none; }
+                        .timeline-icon { position: absolute; left: -30px; top: 0; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+                        .timeline-content { padding-left: 15px; }
+                    `;
+                    document.head.appendChild(style);
+                }
+                
+            } catch (error) {
+                console.error('Erreur chargement progression:', error);
+                modalContent.innerHTML = '<p class="text-center text-danger">Impossible de charger les détails de la visite</p>';
+            }
+        };
+
+        // Cancel visit handler
+        const setupCancelVisit = () => {
+            const confirmButton = document.getElementById('confirm-cancel-button');
+            if (confirmButton) {
+                confirmButton.addEventListener('click', async () => {
+                    if (!currentCancelVisitId) return;
+                    
+                    const token = getAuthToken();
+                    if (!token) {
+                        showError('Veuillez vous reconnecter');
+                        return;
+                    }
+                    
+                    const originalButtonText = confirmButton.innerHTML;
+                    confirmButton.disabled = true;
+                    confirmButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Annulation...';
+                    
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/api/audiences/${currentCancelVisitId}/cancel`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ status: 'canceled' })
+                        });
+                        
+                        if (handleUnauthorized(response.status)) return;
+                        
+                        if (response.ok) {
+                            await loadTodayVisits();
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('delete-modal'));
+                            if (modal) modal.hide();
+                            showError('<div class="text-center"><i class="bi bi-check-circle text-success"></i> Visite annulée avec succès</div>');
+                            setTimeout(() => {
+                                if (visitsError) visitsError.classList.add('d-none');
+                            }, 3000);
+                        } else {
+                            const errorData = await response.json().catch(() => null);
+                            throw new Error(errorData?.message || 'Erreur lors de l\'annulation');
+                        }
+                    } catch (error) {
+                        console.error('Erreur annulation:', error);
+                        showError(`<div class="text-center"><i class="bi bi-exclamation-triangle text-danger"></i> ${error.message}</div>`);
+                    } finally {
+                        confirmButton.disabled = false;
+                        confirmButton.innerHTML = originalButtonText;
+                        currentCancelVisitId = null;
+                    }
+                });
+            }
+        };
+
+        // Filter handlers
+        const applyFilters = () => {
+            currentPage = 1;
+            renderVisits();
+        };
+        
+        if (statusFilterForm) {
+            statusFilterForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                currentStatus = statusFilter?.value || '';
+                applyFilters();
+            });
+        }
+        
+        if (searchButton) {
+            searchButton.addEventListener('click', () => {
+                currentSearch = searchInput?.value?.trim() || '';
+                applyFilters();
+            });
+        }
+        
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    currentSearch = searchInput.value.trim();
+                    applyFilters();
+                }
+            });
+        }
+        
+        // Download CSV
+        document.getElementById('download-csv')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            const filtered = filterVisits();
+            if (filtered.length === 0) {
+                showError('Aucune donnée à exporter');
+                return;
+            }
+            
+            const headers = ['#', 'Visiteur', 'Téléphone', 'Email', 'Objet', 'Rendez-vous', 'Statut', 'Priorité', 'Entrée', 'Sortie', 'Durée'];
+            const rows = filtered.map((visit, index) => [
+                index + 1,
+                visit.visitor_name || '',
+                visit.visitor_phone || '',
+                visit.visitor_email || '',
+                visit.purpose || '',
+                formatDate(visit.scheduled_at),
+                visit.status || '',
+                visit.priority_score || visit.priority || '',
+                formatDate(visit.entry_time),
+                formatDate(visit.exit_time),
+                formatDuration(visit.entry_time, visit.exit_time)
+            ]);
+            
+            const csvContent = [headers, ...rows].map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
+            const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.href = url;
+            link.setAttribute('download', `visites_${new Date().toISOString().slice(0, 10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        });
+        
+        document.getElementById('download-pdf')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            showError('Export PDF en développement');
+        });
+        
+        // Make reload function available globally
+        window.reloadTodayVisits = loadTodayVisits;
+        
+        // Initialize
+        const init = () => {
+            console.log('=== INITIALISATION PAGE VISITES ===');
+            loadTodayVisits();
+            setupAddVisitForm();
+            setupCancelVisit();
+        };
+        
+        if (document.readyState !== 'loading') {
+            init();
+        } else {
+            document.addEventListener('DOMContentLoaded', init);
+        }
+    })();
+    </script>
+
+    <!-- Scroll to anchor -->
+    <script>
+    (function () {
+        const hash = window.location.hash;
+        if (!hash) return;
+        const targetId = hash.slice(1);
+        if (!targetId) return;
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        setTimeout(() => {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+    })();
+    </script>
+</body>
+</html>
