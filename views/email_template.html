@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vérification OTP</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #eef2f7;
+        font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .container {
+        padding: 30px 10px;
+    }
+
+    .email-box {
+        max-width: 650px;
+        margin: auto;
+        background: #ffffff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    .header {
+        background: #ffffff;
+        padding: 25px 20px 10px;
+        text-align: center;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .header img {
+        max-width: 320px;
+        width: 100%;
+        height: auto;
+    }
+
+    .sub-header {
+        text-align: center;
+        font-size: 13px;
+        color: #6b7280;
+        margin-top: 5px;
+        letter-spacing: 0.5px;
+    }
+
+    .content {
+        padding: 35px 40px;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    .title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #222;
+        margin-bottom: 20px;
+    }
+
+    .otp-box {
+        margin: 30px 0;
+        text-align: center;
+    }
+
+    .otp {
+        display: inline-block;
+        background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+        padding: 20px 40px;
+        font-size: 30px;
+        letter-spacing: 10px;
+        font-weight: bold;
+        border-radius: 8px;
+        color: #111;
+        border: 1px dashed #cbd5e1;
+    }
+
+    .info-box {
+        background: #f8fafc;
+        border-left: 4px solid #0F89CB;
+        padding: 15px 20px;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .footer {
+        background: #f9fafb;
+        text-align: center;
+        font-size: 12px;
+        color: #6b7280;
+        padding: 25px 20px;
+        border-top: 1px solid #e5e7eb;
+        line-height: 18px;
+    }
+
+    .bars {
+        display: flex;
+        height: 6px;
+    }
+
+    .bars div {
+        flex: 1;
+    }
+
+    .b1 { background:#0F89CB; }
+    .b2 { background:#F7D618; }
+    .b3 { background:#CE1021; }
+
+    @media (max-width: 600px) {
+        .content {
+            padding: 25px 20px;
+        }
+
+        .otp {
+            font-size: 24px;
+            letter-spacing: 6px;
+        }
+    }
+</style>
+
+</head>
+
+<body>
+<div class="container">
+    <div class="email-box">
+        
+        <!-- HEADER WITH YOUR LOGO -->
+        <div class="header">
+            <img src="/public/images/logo/logo-full.jpeg" alt="Présidence - CNS">
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            
+            <div class="title">Madame, Monsieur</div>
+
+            <p>
+                Veuillez utiliser le code de vérification unique ci-dessous afin de finaliser
+                votre procédure d'authentification :
+            </p>
+
+            <div class="otp-box">
+                <div class="otp">123456</div>
+            </div>
+
+            <div class="info-box">
+                <strong>Pour des raisons de sécurité, ce code n'est valide que pendant 5 minutes.</strong>
+            </div>
+            
+            <p>
+                <strong>La Direction Technique</strong><br>
+                Conseil National de Sécurité
+            </p>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            Ce message est généré automatiquement. Merci de ne pas y répondre.<br>
+            2026 © Présidence de la République - Tous droits réservés
+        </div>
+
+        <!-- COLOR BARS -->
+        <div class="bars">
+            <div class="b1"></div>
+            <div class="b2"></div>
+            <div class="b3"></div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

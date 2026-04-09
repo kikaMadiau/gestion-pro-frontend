@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Rapport - CNS</title>
+
+<style>
+    @page {
+        size: A4 landscape;
+        margin: 20mm;
+    }
+
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        margin: 0;
+        background: #fff;
+    }
+
+    .page {
+        background: #fff;
+        padding: 30px;
+        border-radius: 8px;
+    }
+
+    /* HEADER */
+    .header {
+        text-align: center;
+        border-bottom: 2px solid #0F89CB;
+        padding-bottom: 15px;
+        margin-bottom: 25px;
+    }
+
+    .header img {
+        max-width: 300px;
+        height: auto;
+        margin-bottom: 30px;
+    }
+
+    .header-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 10px;
+        text-transform: uppercase;
+    }
+
+    .sub-title {
+        font-size: 14px;
+        color: #555;
+    }
+
+    /* REPORT INFO */
+    .report-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .report-info div {
+        background: #f8fafc;
+        padding: 10px 15px;
+        border-left: 4px solid #0F89CB;
+    }
+
+    /* TABLE */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    thead {
+        background: #0F89CB;
+        color: #fff;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    tbody tr:nth-child(even) {
+        background: #f9fafb;
+    }
+
+    /* FOOTER */
+    .footer {
+        position: fixed;
+        bottom: 5mm;
+        left: 20mm;
+        right: 20mm;
+        font-size: 12px;
+        line-height: 18px;
+        text-align: center;
+        color: #777;
+    }
+
+    .bars {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        display: flex;
+    }
+
+    .bars div { flex: 1; }
+    .b1 { background:#0F89CB; }
+    .b2 { background:#F7D618; }
+    .b3 { background:#CE1021; }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<!-- HEADER -->
+<div class="header">
+    <img src="/public/images/logo/logo-full.jpeg" alt="Logo">
+    <div class="header-title">Rapport d'activité des accès visiteurs</div>
+</div>
+
+<!-- REPORT INFO -->
+<div class="report-info">
+    <div><strong>Date :</strong> 09 Avril 2026</div>
+    <div><strong>Service :</strong> Direction Technique</div>
+    <div><strong>Référence :</strong> CNS-RPT-2026-0045</div>
+</div>
+
+<!-- TABLE -->
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nom du visiteur</th>
+            <th>Personne visitée</th>
+            <th>Point de contrôle 1</th>
+            <th>Point de contrôle 2</th>
+            <th>Point de contrôle 3</th>
+            <th>Heure d'entrée</th>
+            <th>Statut</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Jean Mukendi</td>
+            <td>M. Kabongo</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>08:45</td>
+            <td>Terminé</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Marie Ilunga</td>
+            <td>Mme Muadi</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>En attente</td>
+            <td>09:10</td>
+            <td>En cours</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Patrick Nzambe</td>
+            <td>M. Malaba</td>
+            <td>Validé</td>
+            <td>Refusé</td>
+            <td>-</td>
+            <td>09:30</td>
+            <td>Refusé</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Chantal Banza</td>
+            <td>M. Lunda</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>10:00</td>
+            <td>Terminé</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Chantal Banza</td>
+            <td>M. Lunda</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>10:00</td>
+            <td>Terminé</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Chantal Banza</td>
+            <td>M. Lunda</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>10:00</td>
+            <td>Terminé</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Chantal Banza</td>
+            <td>M. Lunda</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>10:00</td>
+            <td>Terminé</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Chantal Banza</td>
+            <td>M. Lunda</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>10:00</td>
+            <td>Terminé</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Chantal Banza</td>
+            <td>M. Lunda</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>10:00</td>
+            <td>Terminé</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Chantal Banza</td>
+            <td>M. Lunda</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>10:00</td>
+            <td>Terminé</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Chantal Banza</td>
+            <td>M. Lunda</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>Validé</td>
+            <td>10:00</td>
+            <td>Terminé</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- FOOTER -->
+<div class="footer">
+    Avenue de l'Unité Africaine, Mont Ngaliema/Kinshasa B.P : 89 Kin I<br/>
+    Tel : (+243) 999 837 347 - (+243) 891 005 545 - Fax : (+243) 139 88 82<br/>
+    E-mail : contact.cns@cnsrdc.com - servicecs@cnsrdc.com - courrier@cnsrdc.com
+</div>
+
+<div class="bars">
+    <div class="b1"></div>
+    <div class="b2"></div>
+    <div class="b3"></div>
+</div>
+
+</div>
+</body>
+</html>
