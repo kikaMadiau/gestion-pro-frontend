@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conseil National de Sécurité - Présidence de la République</title>
+
+    <!-- Include Choices CSS -->
+    <link rel="stylesheet" href="vendors/choices.js/choices.min.css" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/bootstrap.css">
+
+    <link rel="stylesheet" href="/public/vendors/iconly/bold.css">
+
+    <link rel="stylesheet" href="/public/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/public/vendors/dripicons/webfont.css">
+
+    <link rel="stylesheet" href="/public/css/app.css">
+    <link rel="stylesheet" href="/public/css/override.css">
+    <link rel="shortcut icon" href="/public/images/favicon.svg" type="image/x-icon">
+    <script src="/public/js/auth-guard.js" defer></script>
+</head>
+
+<body data-route-page="users.html" data-protected="true">
+    <div id="app">
+        <div id="sidebar" class="active">
+            <div class="sidebar-wrapper active">
+                <div class="sidebar-header">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="logo">
+                            <a href="/dashboard" data-route="/dashboard" data-target="home.html">
+                                <img src="/public/images/logo/logo-final.png" alt="Logo" srcset="">
+                            </a>
+                        </div>
+                        <div class="toggler">
+                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- left menu bar -->
+                <div class="sidebar-menu">
+                    <ul class="menu">
+                        <li class="sidebar-title">Gestion des utilisateur</li>
+                        <li class="sidebar-item has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="icon dripicons-checklist"></i>
+                                <span>Gérer les utilisateurs</span>
+                                <i class="bi bi-caret-down-fill added-icon"></i>
+                            </a>
+                            <ul class="submenu">
+                                <li class="submenu-item">
+                                    <a href="/users" data-route="/users" data-target="users.html">Gérer les utilisateurs</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-title">Gestion des visites</li>
+                        <li class="sidebar-item active">
+                            <a href="/dashboard" data-route="/dashboard" data-target="home.html" class='sidebar-link'>
+                                <i class="icon dripicons-graph-pie"></i>
+                                <span>Tableau de bord</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="icon dripicons-checklist"></i>
+                                <span>Gérer mes visites</span>
+                                <i class="bi bi-caret-down-fill added-icon"></i>
+                            </a>
+                            <ul class="submenu">
+                                <li class="submenu-item">
+                                    <a href="/visites" data-route="/visites" data-target="visites.html">Visites du jours</a>
+                                </li>
+                                <li class="submenu-item">
+                                    <a href="/visites/toutes" data-route="/visites/toutes" data-target="all-visites.html">Toutes les visites</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- end left menu bar -->
+
+                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+            </div>
+        </div>
+
+        <div class="">
+            <header class='mb-3'>
+                <nav class="navbar navbar-expand navbar-light white-bg">
+                    <div class="container-fluid">
+                        <a href="#" class="burger-btn d-block">
+                            <i class="bi bi-justify fs-3"></i>
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                                <li class="nav-item dropdown me-1">
+                                    <a class="nav-link active dropdown-toggle relative-wrapper" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class='bi bi-chat bi-sub fs-4 text-gray-600'></i>
+                                        <span class="badge bg-danger absolute-badge">1</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><h6 class="dropdown-header">Courriers</h6></li>
+                                        <li><a class="dropdown-item" href="#">Pas de nouveau courrier</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown me-1">
+                                    <a class="nav-link active dropdown-toggle relative-wrapper" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class='bi bi-inboxes bi-sub fs-4 text-gray-600'></i>
+                                        <span class="badge bg-secondary absolute-badge">0</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><h6 class="dropdown-header">Courriers</h6></li>
+                                        <li><a class="dropdown-item" href="#">Pas de nouveau courrier</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown me-3">
+                                    <a class="nav-link active dropdown-toggle relative-wrapper" href="#" data-bs-toggle="dropdown"aria-expanded="false">
+                                        <i class='bi bi-bell bi-sub fs-4 text-gray-600'></i>
+                                        <span class="badge bg-danger absolute-badge">4</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><h6 class="dropdown-header">Notifications</h6></li>
+                                        <li><a class="dropdown-item">No notification available</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="dropdown">
+                                <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="user-menu d-flex">
+                                        <div class="user-name text-end me-3">
+                                            <h6 class="mb-0 text-gray-600 user-name-value">—</h6>
+                                            <p class="mb-0 text-sm text-gray-600 user-direction-value">—</p>
+                                        </div>
+                                        <div class="user-img d-flex align-items-center">
+                                            <div class="avatar avatar-md">
+                                                <img src="/public/images/faces/1.jpg">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i> Mon Profile</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-gear me-2"></i> Reglages</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="/login" data-route="/login" data-target="index.html"><i class="icon-mid bi bi-box-arrow-left me-2"></i> Déconnexion</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+        </div>
+
+        <div id="main">
+            <div class="page-heading">
+                <div class="page-title">
+                        <div class="row">
+                            <div class="col-12 col-md-6 order-md-1 order-last">
+                                <h3>Comptes Administrateur</h3>
+                                <p class="text-muted small mb-0" id="direction-name">Direction : —</p>
+                            </div>
+                        <div class="col-12 col-md-6 order-md-2 order-first">
+                            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/dashboard" data-route="/dashboard" data-target="home.html">Tableau de bord</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Comptes utilisateurs</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-content">
+                <section class="section">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="d-flex align-items-center flex-wrap gap-2">
+                                        <form class="d-flex align-items-center gap-3 flex-wrap form-wrapper" id="status-filter-form">
+                                            <div class="input-group">
+                                                <label class="input-group-text" for="status-filter">Status</label>
+                                                <select class="form-select" id="status-filter">
+                                                    <option value="">-- Choisir --</option>
+                                                    <option value="active">Actif</option>
+                                                    <option value="deactivated">Bloqué</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-primary"><i class="bi bi-send-check"></i></button>
+                                            </div>
+                                        </form>
+                                        <form class="d-flex align-items-center gap-3 flex-wrap form-wrapper" id="search-form">
+                                            <div class="input-group">
+                                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
+                                                <input type="text" class="form-control" id="search-input" placeholder="Entrer votre texte ici..." aria-describedby="search-button">
+                                                <button class="btn btn-primary" type="button" id="search-button"><i class="bi bi-send-check"></i></button>
+                                            </div>
+                                        </form>
+                                        <div class="d-flex align-items-center gap-3 flex-wrap form-wrapper">
+                                            <div class="dropdown">
+                                                <button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Télécharger
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="#" id="download-csv"><i class="bi bi-download"></i> Rapport csv</a>
+                                                    <a class="dropdown-item" href="#" id="download-pdf"><i class="bi bi-download"></i> Rapport pdf</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-3 flex-wrap form-wrapper ms-auto position-relative">
+                                            <button class="btn btn-primary" id="add-user-button">
+                                                <i class="bi bi-person-plus"></i> Ajouter un utilisateur
+                                            </button>
+                                            <div id="add-user-restriction-toast" class="position-absolute start-50 translate-middle-x mt-1" style="top: 100%; z-index: 1000; display: none;">
+                                                <div class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">
+                                                    <div class="d-flex">
+                                                        <div class="toast-body">
+                                                            <i class="bi bi-shield-lock me-2"></i> Seuls les administrateurs et directeurs peuvent créer des comptes.
+                                                        </div>
+                                                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-lg">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">No</th>
+                                                    <th class="text-center">#</th>
+                                                    <th>Prenom</th>
+                                                    <th>Nom</th>
+                                                    <th>Email</th>
+                                                    <th>Telephone</th>
+                                                    <th>Grade</th>
+                                                    <th class="text-center">Type compte</th>
+                                                    <th class="text-center">#</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="users-table-body">
+                                                <!-- Dynamic content -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <small class="text-muted" id="direction-info">Chargement de la direction…</small>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <small class="text-muted d-none" id="pagination-summary"></small>
+                                            <nav>
+                                                <ul class="pagination pagination-sm mb-0" id="pagination-container">
+                                                    <!-- Dynamic pagination -->
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="text-center">
+                        <p class="content-font">2026 © Conseil National de Sécurité - Tous droits réservés</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- ADD USER ACCOUNT MODAL -->
+    <div class="modal fade" id="addUSER" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title w-100 text-center" id="myModalLabel17">Créer un compte utilisateur</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x-circle"></i>
+                    </button>
+                </div>
+                <div class="modal-body pd-20">
+                    <form id="add-user-form" novalidate method="post">
+                        <div id="add-user-feedback" class="alert alert-danger d-none" role="alert"></div>
+                        <div id="add-user-success" class="alert alert-success d-none" role="status">
+                            <p class="mb-1" id="add-user-success-message"></p>
+                            <p class="mb-0">Mot de passe temporaire : <strong id="add-user-temp-password">—</strong></p>
+                        </div>
+                        <div class="col-sm-12 mb-3">
+                            <label class="form-label" for="add-user-first-name">Prénom</label>
+                            <div class="form-group position-relative has-icon-left">
+                                <input id="add-user-first-name" name="first_name" type="text" class="form-control" placeholder="Anna" required>
+                                <div class="form-control-icon"><i class="bi bi-person-check"></i></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 mb-3">
+                            <label class="form-label" for="add-user-last-name">Nom</label>
+                            <div class="form-group position-relative has-icon-left">
+                                <input id="add-user-last-name" name="last_name" type="text" class="form-control" placeholder="Ex: Litanga" required>
+                                <div class="form-control-icon"><i class="bi bi-person-check"></i></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 mb-3">
+                            <label class="form-label" for="add-user-email">Email</label>
+                            <div class="form-group position-relative has-icon-left">
+                                <input id="add-user-email" name="email" type="email" class="form-control" placeholder="reception.anna@example.com" required>
+                                <div class="form-control-icon"><i class="bi bi-envelope-check"></i></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 mb-3">
+                            <label class="form-label" for="add-user-phone">Téléphone</label>
+                            <div class="form-group position-relative has-icon-left">
+                                <input id="add-user-phone" name="phone" type="tel" class="form-control" placeholder="+243820000001" required>
+                                <div class="form-control-icon"><i class="bi bi-telephone"></i></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer pd-5">
+                    <div class="d-grid gap-2 w-100" style="grid-template-columns: 1fr 1fr;">
+                        <button type="button" class="btn btn-danger ml-1" data-bs-dismiss="modal">
+                            <span class="d-none d-sm-block">Annuler</span>
+                        </button>
+                        <button type="submit" form="add-user-form" id="add-user-submit-button" class="btn btn-primary ml-1">
+                            <span class="d-none d-sm-block">Créer le compte</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DELETE MODAL -->
+    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title w-100 text-center" id="myModalLabel17">Avis de suppression</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x-circle"></i>
+                    </button>
+                </div>
+                <div class="modal-body pd-20">
+                    <div class="col-sm-12 mb-3 text-center">
+                        <i class="bi bi-x-octagon text-danger fs-1"></i>
+                        <h4 class="text-muted text-md">Êtes-vous sûr de vouloir supprimer <br/>ce compte ?</h4>
+                    </div>
+                </div>
+                <div class="modal-footer pd-5">
+                    <div class="d-grid gap-2 w-100" style="grid-template-columns: 1fr 1fr;">
+                        <button type="button" class="btn btn-danger ml-1" data-bs-dismiss="modal">
+                            <span class="d-none d-sm-block">Annuler</span>
+                        </button>
+                        <button type="button" class="btn btn-primary ml-1" id="confirm-delete-button">
+                            <span class="d-none d-sm-block">Supprimer compte</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/public/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="/public/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/vendors/apexcharts/apexcharts.js"></script>
+    <script src="/public/js/pages/dashboard.js"></script>
+    <script src="/public/vendors/choices.js/choices.min.js"></script>
+    <script src="/public/js/main.js"></script>
+    
+    <script>
+    (function() {
+        'use strict';
+
+        // Configuration
+        const API_BASE_URL = 'http://127.0.0.1:8000';
+        const USER_ME_URL = `${API_BASE_URL}/user/me`;
+        const DIRECTION_MEMBERS_URL = `${API_BASE_URL}/directions/members`;
+        const ADD_USER_URL = `${API_BASE_URL}/user/register`;
+        const DELETE_USER_URL = `${API_BASE_URL}/user`;
+        const DEFAULT_ROLE = 'ROLE_EMPLOYEE';
+        
+        // Rôles autorisés à ajouter des utilisateurs
+        const ADMIN_ROLES = new Set([
+            'ROLE_SUPER_ADMIN',
+            'ROLE_ADMIN',
+            'ROLE_DIRECTOR'
+        ]);
+        
+        // DOM Elements
+        const tableBody = document.getElementById('users-table-body');
+        const paginationContainer = document.getElementById('pagination-container');
+        const statusFilter = document.getElementById('status-filter');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const statusFilterForm = document.getElementById('status-filter-form');
+        const addUserButton = document.getElementById('add-user-button');
+        const restrictionToast = document.getElementById('add-user-restriction-toast');
+        const directionNameEl = document.getElementById('direction-name');
+        const directionInfoEl = document.getElementById('direction-info');
+        const paginationSummaryEl = document.getElementById('pagination-summary');
+        
+        // State
+        let currentMembers = [];
+        let currentPage = 1;
+        let currentStatus = '';
+        let currentSearch = '';
+        let currentDeleteUserId = null;
+        let toastInstance = null;
+        let paginationMeta = {
+            current_page: 1,
+            per_page: 10,
+            total: 0,
+            total_pages: 1,
+        };
+        let directionMetadata = null;
+        let currentUserRole = null;
+        let roleCheckDone = false;
+
+        // Helper Functions
+        const getAuthToken = () => localStorage.getItem('authToken');
+        
+        // Récupérer le rôle de l'utilisateur depuis l'API /user/me
+        const fetchCurrentUserRole = async () => {
+            const token = getAuthToken();
+            if (!token) {
+                console.log('Pas de token, impossible de récupérer le rôle');
+                return null;
+            }
+            
+            try {
+                console.log('Appel API /user/me pour récupérer le rôle...');
+                const response = await fetch(USER_ME_URL, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    console.log(`Erreur API /user/me: ${response.status}`);
+                    return null;
+                }
+                
+                const data = await response.json();
+                console.log('Réponse /user/me reçue:', data);
+                
+                // Extraire le rôle (peut être dans 'role' ou 'roles')
+                let role = null;
+                if (data.role) {
+                    role = data.role.toUpperCase();
+                } else if (data.roles && Array.isArray(data.roles) && data.roles.length > 0) {
+                    role = data.roles[0].toUpperCase();
+                }
+                
+                console.log(`👤 Rôle utilisateur: ${role}`);
+                
+                // Stocker le rôle dans sessionStorage pour usage futur
+                if (role) {
+                    sessionStorage.setItem('currentUserRoles', JSON.stringify([role]));
+                    sessionStorage.setItem('currentUserRole', role);
+                }
+                
+                return role;
+            } catch (error) {
+                console.error('Erreur lors de l\'appel /user/me:', error);
+                return null;
+            }
+        };
+        
+        // Vérifier si l'utilisateur peut ajouter un compte
+        const canAddUser = async () => {
+            // Si on a déjà vérifié et trouvé un rôle, on l'utilise
+            if (currentUserRole && ADMIN_ROLES.has(currentUserRole)) {
+                console.log(`Rôle déjà connu: ${currentUserRole} - ACCÈS AUTORISÉ`);
+                return true;
+            }
+            
+            // Si on n'a pas encore de rôle, on le récupère
+            if (!currentUserRole && !roleCheckDone) {
+                currentUserRole = await fetchCurrentUserRole();
+                roleCheckDone = true;
+            }
+            
+            const allowed = currentUserRole && ADMIN_ROLES.has(currentUserRole);
+            console.log(`🔐 Vérification droit d'ajout: rôle=${currentUserRole}, autorisé=${allowed}`);
+            return allowed;
+        };
+        
+        // Version synchrone pour l'affichage (utilise le rôle en cache)
+        const canAddUserSync = () => {
+            return currentUserRole && ADMIN_ROLES.has(currentUserRole);
+        };
+        
+        // Afficher le toast de restriction
+        const showRestrictionToast = () => {
+            if (!restrictionToast) return;
+            
+            const toastElement = restrictionToast.querySelector('.toast');
+            if (toastElement) {
+                if (toastInstance) {
+                    toastInstance.dispose();
+                }
+                
+                toastInstance = new bootstrap.Toast(toastElement, {
+                    autohide: true,
+                    delay: 3000
+                });
+                
+                restrictionToast.style.display = 'block';
+                toastInstance.show();
+                
+                toastElement.addEventListener('hidden.bs.toast', () => {
+                    restrictionToast.style.display = 'none';
+                }, { once: true });
+            }
+        };
+        
+        // Gestionnaire de clic sur le bouton d'ajout
+        const handleAddUserClick = async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('=== CLIC SUR BOUTON AJOUTER UTILISATEUR ===');
+            
+            // Vérifier les droits (appel API si nécessaire)
+            const allowed = await canAddUser();
+            
+            if (!allowed) {
+                console.log('ACCÈS REFUSÉ - Affichage du toast');
+                showRestrictionToast();
+                return false;
+            }
+            
+            console.log('ACCÈS AUTORISÉ - Ouverture du modal');
+            const modal = new bootstrap.Modal(document.getElementById('addUSER'));
+            modal.show();
+        };
+        
+        // Appliquer le style du bouton
+        const applyAddUserButtonStyle = () => {
+            if (!addUserButton) return;
+            
+            const allowed = canAddUserSync();
+            
+            if (allowed) {
+                addUserButton.style.opacity = '1';
+                addUserButton.style.cursor = 'pointer';
+                addUserButton.classList.remove('btn-secondary');
+                addUserButton.classList.add('btn-primary');
+                addUserButton.disabled = false;
+                addUserButton.title = 'Ajouter un utilisateur';
+                console.log('🎨 Bouton: MODE ADMIN (actif)');
+            } else {
+                addUserButton.style.opacity = '0.8';
+                addUserButton.style.cursor = 'pointer';
+                addUserButton.classList.remove('btn-primary');
+                addUserButton.classList.add('btn-secondary');
+                addUserButton.disabled = false;
+                addUserButton.title = 'Seuls les administrateurs et directeurs peuvent créer des comptes';
+                console.log('🎨 Bouton: MODE RESTREINT');
+            }
+        };
+        
+        const showMessageRow = (message, isError = false) => {
+            if (tableBody) {
+                tableBody.innerHTML = `<tr><td colspan="9" class="text-center ${isError ? 'text-danger' : 'text-muted'} py-4">${escapeHtml(message)}</td></tr>`;
+            }
+            updatePaginationSummary(0);
+        };
+
+        const showLoadingRow = () => {
+            if (tableBody) {
+                tableBody.innerHTML = `<tr><td colspan="9" class="text-center py-4"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Chargement...</span></div></td></tr>`;
+            }
+        };
+
+        const handleUnauthorized = (status) => {
+            if (status === 401) {
+                localStorage.removeItem('authToken');
+                window.location.href = '/login';
+                return true;
+            }
+            return false;
+        };
+
+        const updateDirectionDisplay = (direction) => {
+            directionMetadata = direction ?? null;
+            if (directionNameEl) {
+                directionNameEl.textContent = direction?.name ? `Direction : ${direction.name}` : 'Direction : —';
+            }
+            if (directionInfoEl) {
+                const directionLabel = direction?.name ? direction.name : 'Direction indisponible';
+                const total = paginationMeta.total ?? 0;
+                const pageInfo = paginationMeta.total_pages > 1 ? ` · page ${paginationMeta.current_page}/${paginationMeta.total_pages}` : '';
+                const totalLabel = total ? ` · ${total} membre${total > 1 ? 's' : ''}` : '';
+                directionInfoEl.textContent = `${directionLabel}${total ? totalLabel : ''}${pageInfo}`;
+            }
+        };
+
+        const updatePaginationSummary = (displayedCount) => {
+            if (!paginationSummaryEl) return;
+            const total = paginationMeta.total ?? 0;
+            if (!total || !displayedCount) {
+                paginationSummaryEl.classList.add('d-none');
+                return;
+            }
+            const start = (paginationMeta.current_page - 1) * paginationMeta.per_page + 1;
+            const end = start + displayedCount - 1;
+            paginationSummaryEl.textContent = `Affiche ${start}-${Math.min(end, total)} sur ${total} membres`;
+            paginationSummaryEl.classList.remove('d-none');
+        };
+
+        const goToPage = async (page) => {
+            if (
+                !page ||
+                page < 1 ||
+                page > (paginationMeta.total_pages || 1) ||
+                page === paginationMeta.current_page
+            ) {
+                return;
+            }
+            currentPage = page;
+            await loadMembers();
+        };
+
+        const filterMembers = () => {
+            let filtered = [...currentMembers];
+
+            if (currentStatus) {
+                filtered = filtered.filter(member => member.status === currentStatus);
+            }
+
+            if (currentSearch) {
+                const searchLower = currentSearch.toLowerCase();
+                filtered = filtered.filter(member =>
+                    (member.first_name?.toLowerCase().includes(searchLower) || false) ||
+                    (member.last_name?.toLowerCase().includes(searchLower) || false) ||
+                    (member.email?.toLowerCase().includes(searchLower) || false) ||
+                    (member.phone?.includes(searchLower) || false)
+                );
+            }
+
+            return filtered;
+        };
+
+        const renderPagination = (meta) => {
+            if (!paginationContainer) return;
+
+            const totalPages = Math.max(1, meta?.total_pages || 1);
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            const current = meta?.current_page || 1;
+            let paginationHtml = '';
+
+            paginationHtml += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${current - 1}">Précédent</a>
+            </li>`;
+
+            const startPage = Math.max(1, current - 2);
+            const endPage = Math.min(totalPages, current + 2);
+
+            if (startPage > 1) {
+                paginationHtml += `<li class="page-item"><a class="page-link" href="#" data-page="1">1</a></li>`;
+                if (startPage > 2) paginationHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHtml += `<li class="page-item ${i === current ? 'active' : ''}">
+                    <a class="page-link" href="#" data-page="${i}">${i}</a>
+                </li>`;
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) paginationHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                paginationHtml += `<li class="page-item"><a class="page-link" href="#" data-page="${totalPages}">${totalPages}</a></li>`;
+            }
+
+            paginationHtml += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${current + 1}">Suivant</a>
+            </li>`;
+
+            paginationContainer.innerHTML = paginationHtml;
+
+            paginationContainer.querySelectorAll('.page-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = parseInt(link.dataset.page);
+                    if (!isNaN(page)) {
+                        goToPage(page);
+                    }
+                });
+            });
+        };
+
+        const formatValue = (value, fallback = '—') => {
+            if (!value || (Array.isArray(value) && value.length === 0)) return fallback;
+            if (Array.isArray(value)) return value.join(', ');
+            if (typeof value === 'string' && value.trim() === '') return fallback;
+            return value;
+        };
+
+        const escapeHtml = (text) => {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        };
+
+        const renderMembers = () => {
+            if (!tableBody) return;
+
+            const filtered = filterMembers();
+            if (filtered.length === 0) {
+                showMessageRow('Aucun membre trouvé');
+                renderPagination(paginationMeta);
+                updatePaginationSummary(0);
+                return;
+            }
+
+            const globalBaseIndex = (paginationMeta.current_page - 1) * paginationMeta.per_page;
+
+            tableBody.innerHTML = filtered.map((member, index) => {
+                const userId = member.user_id ?? member.id ?? '';
+                const grade = formatValue(member.direction_roles);
+                const accountType = formatValue(member.roles);
+                const phone = formatValue(member.phone);
+                const email = formatValue(member.email);
+                const firstName = formatValue(member.first_name);
+                const lastName = formatValue(member.last_name);
+                const statusBadge = member.status === 'active'
+                    ? '<span class="badge bg-success">Actif</span>'
+                    : '<span class="badge bg-danger">Bloqué</span>';
+                const globalIndex = globalBaseIndex + index + 1;
+
+                return `
+                    <tr data-user-id="${userId}">
+                        <td class="text-center">${globalIndex}</td>
+                        <td class="text-center">
+                            <div class="avatar avatar-md">
+                                <img src="${member.avatar || '/public/images/faces/5.jpg'}" alt="${escapeHtml(firstName)}">
+                            </div>
+                        </td>
+                        <td><p class="mb-0">${escapeHtml(firstName)}</p></td>
+                        <td><p class="mb-0">${escapeHtml(lastName)}</p></td>
+                        <td><p class="mb-0">${escapeHtml(email)}</p></td>
+                        <td><p class="mb-0">${escapeHtml(phone)}</p></td>
+                        <td><p class="mb-0">${escapeHtml(grade)}</p></td>
+                        <td class="text-center">${statusBadge}</td>
+                        <td class="text-center action-button-custom">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-primary dropdown-toggle me-1" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Actions <i class="bi bi-caret-down-fill"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item view-user" href="#" data-user-id="${userId}"><i class="bi bi-eye"></i> Voir compte</a>
+                                    <a class="dropdown-item edit-user" href="#" data-user-id="${userId}"><i class="bi bi-pen"></i> Modifier compte</a>
+                                    <a class="dropdown-item delete-user" href="#" data-user-id="${userId}" data-user-name="${escapeHtml(firstName)} ${escapeHtml(lastName)}"><i class="bi bi-x-circle"></i> Supprimer compte</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            renderPagination(paginationMeta);
+            updatePaginationSummary(filtered.length);
+
+            document.querySelectorAll('.view-user').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const userId = btn.dataset.userId;
+                    viewUserDetails(userId);
+                });
+            });
+
+            document.querySelectorAll('.edit-user').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const userId = btn.dataset.userId;
+                    editUser(userId);
+                });
+            });
+
+            document.querySelectorAll('.delete-user').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const userId = btn.dataset.userId;
+                    currentDeleteUserId = userId;
+                    const deleteModal = new bootstrap.Modal(document.getElementById('delete-modal'));
+                    deleteModal.show();
+                });
+            });
+        };
+
+        const loadMembers = async () => {
+            const token = getAuthToken();
+            if (!token) {
+                showMessageRow('Connectez-vous pour voir la liste des membres.', true);
+                return;
+            }
+
+            showLoadingRow();
+            if (directionInfoEl) {
+                directionInfoEl.textContent = 'Chargement de la direction…';
+            }
+
+            try {
+                const response = await fetch(`${DIRECTION_MEMBERS_URL}?page=${encodeURIComponent(currentPage)}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (handleUnauthorized(response.status)) return;
+
+                if (!response.ok) {
+                    throw new Error(`Erreur ${response.status}`);
+                }
+
+                const payload = await response.json();
+                const pagination = payload.pagination ?? {};
+                paginationMeta = {
+                    current_page: pagination.current_page ?? currentPage,
+                    per_page: pagination.per_page ?? paginationMeta.per_page,
+                    total: pagination.total ?? (payload.members?.length ?? 0),
+                    total_pages: pagination.total_pages ?? 1,
+                };
+                currentMembers = payload.members || [];
+                updateDirectionDisplay(payload.direction);
+                renderMembers();
+            } catch (error) {
+                console.error('Chargement des membres échoué', error);
+                paginationMeta = {
+                    ...paginationMeta,
+                    total: 0,
+                    total_pages: 1,
+                };
+                updateDirectionDisplay(null);
+                showMessageRow('Impossible de charger les membres. Veuillez réessayer plus tard.', true);
+            }
+        };
+
+        const viewUserDetails = (userId) => {
+            const user = currentMembers.find(m => m.id == userId);
+            if (user) {
+                const grade = formatValue(user.direction_roles);
+                alert(`Détails utilisateur:\n\nPrénom: ${formatValue(user.first_name)}\nNom: ${formatValue(user.last_name)}\nEmail: ${formatValue(user.email)}\nTéléphone: ${formatValue(user.phone)}\nGrade: ${grade}`);
+            }
+        };
+        
+        const editUser = (userId) => {
+            alert(`Fonctionnalité de modification en développement pour l'utilisateur ${userId}`);
+        };
+
+        const deleteUser = async (userId) => {
+            const token = getAuthToken();
+            if (!token) {
+                alert('Veuillez vous reconnecter');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${DELETE_USER_URL}/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (handleUnauthorized(response.status)) return;
+                
+                if (response.ok) {
+                    await loadMembers();
+                    alert('Utilisateur supprimé avec succès');
+                } else {
+                    const error = await response.json().catch(() => ({}));
+                    throw new Error(error.message || 'Erreur lors de la suppression');
+                }
+            } catch (error) {
+                console.error('Erreur suppression:', error);
+                alert(error.message || 'Impossible de supprimer l\'utilisateur');
+            }
+        };
+
+        const setupAddUserForm = () => {
+            const form = document.getElementById('add-user-form');
+            if (!form) return;
+            
+            const feedbackBox = document.getElementById('add-user-feedback');
+            const successBox = document.getElementById('add-user-success');
+            const successMessage = document.getElementById('add-user-success-message');
+            const tempPassword = document.getElementById('add-user-temp-password');
+            const submitButton = document.getElementById('add-user-submit-button');
+            
+            const showFeedback = (message) => {
+                if (feedbackBox) {
+                    feedbackBox.textContent = message;
+                    feedbackBox.classList.remove('d-none');
+                }
+                if (successBox) successBox.classList.add('d-none');
+            };
+            
+            const hideFeedback = () => {
+                if (feedbackBox) feedbackBox.classList.add('d-none');
+            };
+            
+            const showSuccess = (message, password) => {
+                if (successBox && successMessage && tempPassword) {
+                    successMessage.textContent = message || 'Compte créé avec succès.';
+                    tempPassword.textContent = password || '—';
+                    successBox.classList.remove('d-none');
+                }
+                if (feedbackBox) feedbackBox.classList.add('d-none');
+            };
+            
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                
+                if (!canAddUserSync()) {
+                    showFeedback('Vous n\'êtes pas autorisé à créer des comptes utilisateur.');
+                    return;
+                }
+                
+                if (!form.checkValidity()) {
+                    form.classList.add('was-validated');
+                    return;
+                }
+                
+                const token = getAuthToken();
+                if (!token) {
+                    showFeedback('Veuillez vous reconnecter pour créer un utilisateur.');
+                    return;
+                }
+                
+                const payload = {
+                    first_name: document.getElementById('add-user-first-name')?.value?.trim() || '',
+                    last_name: document.getElementById('add-user-last-name')?.value?.trim() || '',
+                    email: document.getElementById('add-user-email')?.value?.trim()?.toLowerCase() || '',
+                    phone: document.getElementById('add-user-phone')?.value?.trim() || '',
+                    roles: [DEFAULT_ROLE]
+                };
+                
+                hideFeedback();
+                if (submitButton) submitButton.disabled = true;
+                
+                try {
+                    const response = await fetch(ADD_USER_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (handleUnauthorized(response.status)) return;
+                    
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => null);
+                        throw new Error(errorData?.message || `Échec (${response.status})`);
+                    }
+                    
+                    const data = await response.json();
+                    showSuccess(data?.message || 'Compte créé avec succès.', data?.temporary_password || data?.temporaryPassword);
+                    form.reset();
+                    form.classList.remove('was-validated');
+                    await loadMembers();
+                    
+                    setTimeout(() => {
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('addUSER'));
+                        if (modal) modal.hide();
+                        hideFeedback();
+                    }, 3000);
+                } catch (error) {
+                    showFeedback(error?.message || 'Impossible de créer le compte utilisateur.');
+                } finally {
+                    if (submitButton) submitButton.disabled = false;
+                }
+            });
+        };
+
+        const applyFilters = () => {
+            currentPage = 1;
+            renderMembers();
+        };
+        
+        if (statusFilterForm) {
+            statusFilterForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                currentStatus = statusFilter?.value || '';
+                applyFilters();
+            });
+        }
+        
+        if (searchButton) {
+            searchButton.addEventListener('click', () => {
+                currentSearch = searchInput?.value?.trim() || '';
+                applyFilters();
+            });
+        }
+        
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    currentSearch = searchInput.value.trim();
+                    applyFilters();
+                }
+            });
+        }
+        
+        document.getElementById('download-csv')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            const filtered = filterMembers();
+            if (filtered.length === 0) {
+                alert('Aucune donnée à exporter');
+                return;
+            }
+            
+            const headers = ['No', 'Prénom', 'Nom', 'Email', 'Téléphone', 'Grade', 'Status'];
+            const rows = filtered.map((member, index) => [
+                index + 1,
+                member.first_name || '',
+                member.last_name || '',
+                member.email || '',
+                member.phone || '',
+                (member.direction_roles || []).join(', '),
+                member.status || ''
+            ]);
+            
+            const csvContent = [headers, ...rows].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+            const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.href = url;
+            link.setAttribute('download', 'utilisateurs.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        });
+        
+        document.getElementById('download-pdf')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Export PDF en développement');
+        });
+        
+        document.getElementById('confirm-delete-button')?.addEventListener('click', async () => {
+            if (currentDeleteUserId) {
+                await deleteUser(currentDeleteUserId);
+                currentDeleteUserId = null;
+            }
+        });
+        
+        // Initialisation
+        const init = async () => {
+            console.log('=== INITIALISATION DE LA PAGE USERS ===');
+            console.log('Rôles autorisés:', Array.from(ADMIN_ROLES));
+            
+            // Récupérer le rôle de l'utilisateur courant
+            currentUserRole = await fetchCurrentUserRole();
+            roleCheckDone = true;
+            
+            console.log(`👤 Rôle utilisateur courant: ${currentUserRole}`);
+            
+            // Appliquer le style du bouton
+            applyAddUserButtonStyle();
+            
+            // Charger les membres
+            await loadMembers();
+            
+            // Configurer le formulaire d'ajout
+            setupAddUserForm();
+            
+            // Ajouter l'écouteur d'événement
+            if (addUserButton) {
+                addUserButton.removeEventListener('click', handleAddUserClick);
+                addUserButton.addEventListener('click', handleAddUserClick);
+                console.log('Écouteur de clic ajouté sur le bouton Ajouter');
+            }
+        };
+        
+        if (document.readyState !== 'loading') {
+            init();
+        } else {
+            document.addEventListener('DOMContentLoaded', init);
+        }
+    })();
+    </script>
+    
+    <script src="/public/js/router.js" defer></script>
+</body>
+</html>
