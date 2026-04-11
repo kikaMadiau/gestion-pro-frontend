@@ -31,7 +31,7 @@
                 <div class="sidebar-header">
                     <div class="d-flex justify-content-center align-items-center">
                         <div class="logo">
-                            <a href="/views/index.html">
+                            <a href="/login">
                                 <img src="/public/images/logo/logo-final.png" alt="Logo" srcset="">
                             </a>
                         </div>
@@ -48,7 +48,7 @@
                         <li class="sidebar-title">Gestion des utilisateur</li>
 
                         <li class="sidebar-item">
-                            <a href="/views/users.html" class='sidebar-link'>
+                            <a href="/users" class='sidebar-link'>
                                 <i class="icon dripicons-user-group"></i>
                                 <span>Gérer les utilisateurs</span>
                             </a>
@@ -57,7 +57,7 @@
                         <li class="sidebar-title">Gestion des visites</li>
 
                         <li class="sidebar-item">
-                            <a href="/views/index.html" class='sidebar-link'>
+                            <a href="/login" class='sidebar-link'>
                                 <i class="icon dripicons-graph-pie"></i>
                                 <span>Tableau de bord</span>
                             </a>
@@ -71,10 +71,10 @@
                             </a>
                             <ul class="submenu ">
                                 <li class="submenu-item ">
-                                    <a href="/views/visites.html">Visites du jours</a>
+                                    <a href="/visites">Visites du jours</a>
                                 </li>
                                 <li class="submenu-item ">
-                                    <a href="/views/all-visites.html">Toutes les visites</a>
+                                    <a href="/visites/toutes">Toutes les visites</a>
                                 </li>
                             </ul>
                         </li>
@@ -186,7 +186,7 @@
                                         <hr class="dropdown-divider">
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="/views/login.html">
+                                        <a class="dropdown-item" href="/loginl">
                                             <i class="icon-mid bi bi-box-arrow-left me-2"></i> Déconnexion 
                                         </a>
                                     </li>
@@ -208,8 +208,8 @@
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="/views/index.html">Tableau de bord</a></li>
-                                    <li class="breadcrumb-item"><a href="/views/all-visites.html">Toutes les visites</a></li>
+                                    <li class="breadcrumb-item"><a href="/login">Tableau de bord</a></li>
+                                    <li class="breadcrumb-item"><a href="/visites/toutes">Toutes les visites</a></li>
                                 </ol>
                             </nav>
                         </div>
@@ -320,13 +320,13 @@
                                                     </td>
                                                     <td class="col-auto text-center action-button-custom">
                                                         <div class="dropdown">
-                                                            <button class="btn btn-outline-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                                            <button class="btn btn-outline-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton_5" data-bs-toggle="dropdown"
                                                                 aria-haspopup="true" aria-expanded="false">
                                                                 Actions <i class="bi bi-caret-down-fill"></i>
                                                             </button>
-                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                <a class="dropdown-item" href="#" data-bs-target="#completeVISITOR" data-bs-toggle="modal" title="Completer formulaire visiteur" data-tooltip="true"><i class="bi bi-pencil-square"></i> Completer formulaire</a>
-                                                                <a class="dropdown-item" href="#" data-bs-target="#validation-modal" data-bs-toggle="modal" title="valider formulaire visiteur" data-tooltip="true"><i class="bi bi-check-circle"></i> Valider Entrée</a>
+                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_5">
+                                                                <a class="dropdown-item complete-visitor-btn" href="#" data-bs-target="#completeVISITOR" data-bs-toggle="modal" data-visit-id="5" title="Compléter formulaire visiteur"><i class="bi bi-pencil-square"></i> Compléter formulaire</a>
+                                                                <a class="dropdown-item validate-entry-btn" href="#" data-bs-target="#validation-modal" data-bs-toggle="modal" data-visit-id="5" title="Valider formulaire visiteur"><i class="bi bi-check-circle"></i> Valider Entrée</a>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -477,7 +477,7 @@
                         <div class="col-sm-12 mb-3">
                             <label>Prénom</label>
                             <div class="form-group position-relative has-icon-left">
-                                <input type="text" class="form-control" placeholder="" value="mike">
+                                <input id="cv_first_name" type="text" class="form-control" placeholder="" value="mike">
                                 <div class="form-control-icon">
                                     <i class="bi bi-person-check"></i>
                                 </div>
@@ -486,7 +486,7 @@
                         <div class="col-sm-12 mb-3">
                             <label>Nom</label>
                             <div class="form-group position-relative has-icon-left">
-                                <input type="text" class="form-control" placeholder="" value="litanga">
+                                <input id="cv_last_name" type="text" class="form-control" placeholder="" value="litanga">
                                 <div class="form-control-icon">
                                     <i class="bi bi-person-check"></i>
                                 </div>
@@ -495,7 +495,7 @@
                         <div class="col-sm-12 mb-3">
                             <label>Post-nom</label>
                             <div class="form-group position-relative has-icon-left">
-                                <input type="text" class="form-control" placeholder="" value="litanga">
+                                <input id="cv_post_name" type="text" class="form-control" placeholder="" value="litanga">
                                 <div class="form-control-icon">
                                     <i class="bi bi-person-check"></i>
                                 </div>
@@ -504,7 +504,7 @@
                         <div class="col-sm-12 mb-3">
                             <label>Téléphone</label>
                             <div class="form-group position-relative has-icon-left">
-                                <input type="text" class="form-control" placeholder="" value="0975289532">
+                                <input id="cv_phone" type="text" class="form-control" placeholder="" value="0975289532">
                                 <div class="form-control-icon">
                                     <i class="bi bi-telephone"></i>
                                 </div>
@@ -524,7 +524,7 @@
                         <div class="col-sm-12 mb-3">
                             <label>Date du rendez-vous</label>
                             <div class="form-group position-relative has-icon-left">
-                                <input type="text" id="rdvDate" name="rdvDate" class="form-control" placeholder="10/04/2026">
+                                <input id="cv_rdvDate" type="text" name="rdvDate" class="form-control" placeholder="10/04/2026">
                                 <div class="form-control-icon">
                                     <i class="bi bi-calendar-event"></i>
                                 </div>
@@ -534,7 +534,7 @@
                             <div class="col-sm-8 mb-3">
                                 <label>Avenue</label>
                                 <div class="form-group position-relative has-icon-left">
-                                    <input type="text" class="form-control" placeholder="">
+                                    <input id="cv_address_avenue" type="text" class="form-control" placeholder="">
                                     <div class="form-control-icon">
                                         <i class="bi bi-signpost-2"></i>
                                     </div>
@@ -543,7 +543,7 @@
                             <div class="col-sm-4 mb-3">
                                 <label>Numéro</label>
                                 <div class="form-group position-relative has-icon-left">
-                                    <input type="text" class="form-control" placeholder="">
+                                    <input id="cv_address_numero" type="text" class="form-control" placeholder="">
                                     <div class="form-control-icon">
                                         <i class="bi bi-geo"></i>
                                     </div>
@@ -554,7 +554,7 @@
                             <div class="col-sm-6 mb-3">
                                 <label>Quartier</label>
                                 <div class="form-group position-relative has-icon-left">
-                                    <input type="text" class="form-control" placeholder="">
+                                    <input id="cv_address_quartier" type="text" class="form-control" placeholder="">
                                     <div class="form-control-icon">
                                         <i class="bi bi-pin-map"></i>
                                     </div>
@@ -563,7 +563,7 @@
                             <div class="col-sm-6 mb-3">
                                 <label>Commune</label>
                                 <div class="form-group position-relative has-icon-left">
-                                    <input type="text" class="form-control" placeholder="">
+                                    <input id="cv_address_commune" type="text" class="form-control" placeholder="">
                                     <div class="form-control-icon">
                                         <i class="bi bi-pin-map"></i>
                                     </div>
@@ -582,6 +582,42 @@
                                 <i class="bx bx-check d-block d-sm-none"></i>
                                 <span class="d-none d-sm-block">Créer le rendez-vous</span>
                             </button>
+                        </div>
+                    </div>
+                    <!-- Champs API-mappés : purpose et identité -->
+                    <div class="col-sm-12 mb-3">
+                        <label>Objet de la visite</label>
+                        <div class="form-group position-relative has-icon-left">
+                            <input id="cv_purpose" type="text" class="form-control" placeholder="Objet de la visite">
+                            <div class="form-control-icon">
+                                <i class="bi bi-card-text"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <label>Type pièce d'identité</label>
+                            <div class="form-group position-relative has-icon-left">
+                                <select id="cv_identity_type" class="form-control">
+                                    <option value="">Sélectionner</option>
+                                    <option value="carte_identite">Carte d'identité</option>
+                                    <option value="carte_electeur">Carte d'électeur</option>
+                                    <option value="permis">Permis de conduire</option>
+                                    <option value="passport">Passeport</option>
+                                </select>
+                                <div class="form-control-icon">
+                                    <i class="bi bi-file-earmark-text"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label>Numéro pièce d'identité</label>
+                            <div class="form-group position-relative has-icon-left">
+                                <input id="cv_identity_number" type="text" class="form-control" placeholder="CI-2026-00123">
+                                <div class="form-control-icon">
+                                    <i class="bi bi-hash"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -655,6 +691,18 @@
     <script src="/public/js/role-menu.js" defer></script>
     <script src="/public/js/router.js" defer></script>
     <script src="/public/js/terminal.js" defer></script>
+    <script>
+      function hasTerminalAccess() {
+        const roles = (typeof window.readStoredRoles === 'function') ? window.readStoredRoles() : [];
+        return Array.isArray(roles) && roles.some(role => ALLOWED_TERMINAL_ROLES.includes((role || '').toUpperCase()));
+    }
+    </script>
+    <script>
+      if (!hasTerminalAccess()) {
+        showAccessDenied();
+        return;
+      }
+    </script>
 </body>
 
 </html>
