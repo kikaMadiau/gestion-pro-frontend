@@ -7,6 +7,7 @@
     { "source": "/visites", "destination": "/visites.html" },
     { "source": "/visites/toutes", "destination": "/all-visites.html" },
     { "source": "/verification", "destination": "/verification.html" },
-    { "source": "/terminal", "destination": "/page-terminal.html" }
+    { "source": "/terminal", "destination": "/page-terminal.html" },
+    { "source": "/security", "destination": "/page-security.html" }
   ]
 }

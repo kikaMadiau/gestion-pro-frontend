@@ -34,6 +34,13 @@
         routeMap.get('/login')
       );
     }
+    if (hasSecurityRole()) {
+      return (
+        routeMap.get('/security') ||
+        routeMap.get('/dashboard') ||
+        routeMap.get('/login')
+      );
+    }
     return routeMap.get('/visites') || routeMap.get('/dashboard') || routeMap.get('/login');
   };
 
@@ -87,6 +94,9 @@
 
   const hasReceptionRole = () => getStoredRoles().some(isReceptionRole);
 
+  const hasSecurityRole = () =>
+    getStoredRoles().some((role) => typeof role === 'string' && role.includes('SECURITY'));
+
   const normalizeAllowedRoles = (roles) => {
     if (!Array.isArray(roles) || !roles.length) {
       return [];
@@ -106,6 +116,13 @@
     if (route.protected && !isAuthenticated()) {
       console.warn('Accès refusé → redirect login');
       return routeMap.get('/login');
+    }
+
+    if (route.path === '/security') {
+      if (hasSecurityRole()) return route;
+      if (!rolesKnown && allowOptimistic) return route;
+      console.warn('Accès /security refusé → redirection');
+      return getDefaultAuthorizedRoute();
     }
 
     if (route.allowedRoles) {

@@ -92,14 +92,24 @@ const isReceptionUser = () => {
   return hasReception;
 };
 
+/** Compte poste sécurité (rôle contenant SECURITY). */
+const isSecurityUser = () => {
+  const roles = readStoredRoles();
+  return roles.some((r) => (r || '').toString().toUpperCase().includes('SECURITY'));
+};
+
 const getLandingPathForUser = () => {
-  const isReception = isReceptionUser();
-  const path = isReception ? '/terminal' : '/dashboard';
-  console.log('🎯 getLandingPathForUser():', { isReception, path });
+  const receptionDesk = isReceptionUser();
+  const securityDesk = isSecurityUser();
+  let path = '/dashboard';
+  if (receptionDesk) path = '/terminal';
+  else if (securityDesk) path = '/security';
+  console.log('🎯 getLandingPathForUser():', { receptionDesk, securityDesk, path });
   return path;
 };
 
 window.isReceptionUser = isReceptionUser;
+window.isSecurityUser = isSecurityUser;
 window.getLandingPathForUser = getLandingPathForUser;
 
 function resolveFriendlyRole(roles) {

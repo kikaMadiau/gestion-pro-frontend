@@ -7,21 +7,21 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="/public/css/bootstrap.css">
 
-    <link rel="stylesheet" href="vendors/iconly/bold.css">
+    <link rel="stylesheet" href="/public/vendors/iconly/bold.css">
 
-    <link rel="stylesheet" href="vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="/public/vendors/perfect-scrollbar/perfect-scrollbar.css">
     
     <!-- Datepicker CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker-bs5.min.css">
 
-    <link rel="stylesheet" href="vendors/dripicons/webfont.css">
+    <link rel="stylesheet" href="/public/vendors/dripicons/webfont.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/app.css">
-    <link rel="stylesheet" href="css/override.css">
-    <link rel="shortcut icon" href="images/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="/public/css/app.css">
+    <link rel="stylesheet" href="public/css/override.css">
+    <link rel="shortcut icon" href="/public/images/favicon.svg" type="image/x-icon">
     <style>
 
         .camera-container{
@@ -116,15 +116,15 @@
     </style>
 </head>
 
-<body>
+<body data-protected="true">
     <div id="app">
         <div id="sidebar" class="active">
             <div class="sidebar-wrapper active">
                 <div class="sidebar-header">
                     <div class="d-flex justify-content-center align-items-center">
                         <div class="logo">
-                            <a href="index.html">
-                                <img src="images/logo/logo-final.png" alt="Logo" srcset="">
+                            <a href="/login">
+                                <img src="/public/images/logo/logo-final.png" alt="Logo" srcset="">
                             </a>
                         </div>
                         <div class="toggler">
@@ -140,7 +140,7 @@
                         <li class="sidebar-title">Gestion des utilisateur</li>
 
                         <li class="sidebar-item">
-                            <a href="users.html" class='sidebar-link'>
+                            <a href="/users" class='sidebar-link'>
                                 <i class="icon dripicons-user-group"></i>
                                 <span>Gérer les utilisateurs</span>
                             </a>
@@ -149,7 +149,7 @@
                         <li class="sidebar-title">Gestion des visites</li>
 
                         <li class="sidebar-item">
-                            <a href="index.html" class='sidebar-link'>
+                            <a href="/login" class='sidebar-link'>
                                 <i class="icon dripicons-graph-pie"></i>
                                 <span>Tableau de bord</span>
                             </a>
@@ -163,10 +163,10 @@
                             </a>
                             <ul class="submenu ">
                                 <li class="submenu-item ">
-                                    <a href="visites.html">Visites du jours</a>
+                                    <a href="/visites">Visites du jours</a>
                                 </li>
                                 <li class="submenu-item ">
-                                    <a href="all-visites.html">Toutes les visites</a>
+                                    <a href="/visites/toutes">Toutes les visites</a>
                                 </li>
                             </ul>
                         </li>
@@ -278,7 +278,7 @@
                                         <hr class="dropdown-divider">
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="login.html">
+                                        <a class="dropdown-item" href="/login">
                                             <i class="icon-mid bi bi-box-arrow-left me-2"></i> Déconnexion 
                                         </a>
                                     </li>
@@ -300,8 +300,8 @@
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">Tableau de bord</a></li>
-                                    <li class="breadcrumb-item"><a href="all-visites.html">Toutes les visites</a></li>
+                                    <li class="breadcrumb-item"><a href="/dashboard">Tableau de bord</a></li>
+                                    <li class="breadcrumb-item"><a href="/visites/toutes">Toutes les visites</a></li>
                                 </ol>
                             </nav>
                         </div>
@@ -375,56 +375,7 @@
                                                     <th class="text-center">#</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-
-                                                <tr>
-                                                    <td class="col-auto">
-                                                        <div class="avatar avatar-md">
-                                                            <img src="images/faces/5.jpg">
-                                                        </div>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0">Mike</p>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0">Litanga</p>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0">mike.litanga@gmail.com</p>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0">0823123234</p>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0 text-center">01/04/26</p>
-                                                    </td>
-                                                    <td class="col-auto text-center">
-                                                        <span class="badge bg-danger">Urgent</span>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0">23, Bolobo</p>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0">Pende</p>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0">Kinshasa</p>
-                                                    </td>
-                                                    <td class="col-auto text-center action-button-custom">
-                                                        <div class="dropdown">
-                                                            <button class="btn btn-outline-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-                                                                aria-haspopup="true" aria-expanded="false">
-                                                                Actions <i class="bi bi-caret-down-fill"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                <a class="dropdown-item" href="#" data-bs-target="#photo-capture-modal" data-bs-toggle="modal" title="Completer formulaire visiteur" data-tooltip="true"><i class="bi bi-card-image"></i> Prendre une photo</a>
-                                                                <a class="dropdown-item" href="#" data-bs-target="#id-scan-modal" data-bs-toggle="modal" title="Completer formulaire visiteur" data-tooltip="true"><i class="bi bi-card-checklist"></i> Ajouter la carte</a>
-                                                                <a class="dropdown-item" href="#" data-bs-target="#validation-security-modal" data-bs-toggle="modal" title="valider formulaire visiteur" data-tooltip="true"><i class="bi bi-check-circle"></i> Valider Securité</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
+                                            <tbody id="security-visits-tbody">
                                             </tbody>
                                         </table>
                                     </div>
@@ -677,12 +628,58 @@
         </div>
         <!-- END VALIDATION SECURITY MODAL -->
 
+        <!-- CHECKIN : photos visiteur + pièce d’identité -->
+        <div class="modal fade" id="security-checkin-modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content shadow border-0">
+                    <div class="modal-header bg-light">
+                        <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Compléter le formulaire</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="security-checkin-visit-id" value="">
+                        <p class="text-muted small mb-3">Ajoutez la photo du visiteur et celle de la pièce d’identité, puis envoyez le dossier.</p>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Photo du visiteur</label>
+                                <div class="border rounded p-2 text-center bg-light" style="min-height:120px;">
+                                    <img id="security-checkin-preview-visitor" alt="" class="img-fluid rounded d-none" style="max-height:160px;">
+                                    <span id="security-checkin-placeholder-visitor" class="text-muted small">Aucune image</span>
+                                </div>
+                                <button type="button" class="btn btn-outline-primary btn-sm mt-2 w-100" id="security-checkin-open-visitor">
+                                    <i class="bi bi-camera"></i> Prendre / choisir photo
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Pièce d’identité</label>
+                                <div class="border rounded p-2 text-center bg-light" style="min-height:120px;">
+                                    <img id="security-checkin-preview-identity" alt="" class="img-fluid rounded d-none" style="max-height:160px;">
+                                    <span id="security-checkin-placeholder-identity" class="text-muted small">Aucune image</span>
+                                </div>
+                                <button type="button" class="btn btn-outline-primary btn-sm mt-2 w-100" id="security-checkin-open-identity">
+                                    <i class="bi bi-card-image"></i> Photographier la pièce
+                                </button>
+                            </div>
+                        </div>
+                        <p id="security-checkin-error" class="text-danger small mt-3 d-none"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-primary" id="security-checkin-submit" disabled>
+                            <i class="bi bi-send-check"></i> Envoyer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END CHECKIN MODAL -->
+
 
     <!-- END ALL MODALS -->
 
-    <script src="vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="/public/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="/public/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/js/main.js"></script>
     <script>
 
         /* capture photo */
@@ -773,21 +770,15 @@
         }
 
         docSave.onclick = function(){
-
-            let image = scannerCanvas.toDataURL("image/png");
-
-            /* example send to server */
-            fetch("upload-scan.php",{
-                method:"POST",
-                body:JSON.stringify({image:image})
-            });
-
-        }
+            /* envoi réel géré par security-dashboard.js (check-in) */
+        };
 
     </script>
     <script src="/public/js/session-user.js" defer></script>
+    <script src="/public/js/auth-guard.js" defer></script>
     <script src="/public/js/user-menu.js" defer></script>
     <script src="/public/js/role-menu.js" defer></script>
     <script src="/public/js/router.js" defer></script>
+    <script src="/public/js/security-dashboard.js" defer></script>
 </body>
 </html>

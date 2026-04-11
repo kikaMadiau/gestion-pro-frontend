@@ -284,54 +284,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="terminal-visits-tbody">
-
-                                                <tr>
-                                                    <td class="col-auto">
-                                                        <div class="avatar avatar-md">
-                                                            <img src="/public/images/faces/5.jpg">
-                                                        </div>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0">Mike</p>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0">Litanga</p>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0">mike.litanga@gmail.com</p>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0">0823123234</p>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0 text-center">01/04/26</p>
-                                                    </td>
-                                                    <td class="col-auto text-center">
-                                                        <span class="badge bg-danger">Urgent</span>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0">23, Bolobo</p>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0">Pende</p>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class=" mb-0">Kinshasa</p>
-                                                    </td>
-                                                    <td class="col-auto text-center action-button-custom">
-                                                        <div class="dropdown">
-                                                            <button class="btn btn-outline-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton_5" data-bs-toggle="dropdown"
-                                                                aria-haspopup="true" aria-expanded="false">
-                                                                Actions <i class="bi bi-caret-down-fill"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_5">
-                                                                <a class="dropdown-item complete-visitor-btn" href="#" data-bs-target="#completeVISITOR" data-bs-toggle="modal" data-visit-id="5" title="Compléter formulaire visiteur"><i class="bi bi-pencil-square"></i> Compléter formulaire</a>
-                                                                <a class="dropdown-item validate-entry-btn" href="#" data-bs-target="#validation-modal" data-bs-toggle="modal" data-visit-id="5" title="Valider formulaire visiteur"><i class="bi bi-check-circle"></i> Valider Entrée</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -467,159 +419,48 @@
                 role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title w-100 text-center" id="myModalLabel17">Completer un rendez-vous</h4>
+                        <h4 class="modal-title w-100 text-center" id="myModalLabel17">Compléter un rendez-vous</h4>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <i class="bi bi-x-circle"></i>
                         </button>
                     </div>
-                    <div class="modal-body pd-20">
-                        
-                        <div class="col-sm-12 mb-3">
-                            <label>Prénom</label>
-                            <div class="form-group position-relative has-icon-left">
-                                <input id="cv_first_name" type="text" class="form-control" placeholder="" value="mike">
-                                <div class="form-control-icon">
-                                    <i class="bi bi-person-check"></i>
-                                </div>
+                    <form id="complete-visitor-form">
+                        <input type="hidden" id="form-visit-id">
+                        <div class="modal-body pd-20">
+                            <div class="col-sm-12 mb-3">
+                                <label for="form-purpose">Motif / objet de la visite</label>
+                                <input type="text" class="form-control bg-light text-muted" id="form-purpose" name="purpose" readonly tabindex="-1" autocomplete="off" aria-readonly="true" title="Renseigné automatiquement à partir du rendez-vous">
                             </div>
-                        </div>
-                        <div class="col-sm-12 mb-3">
-                            <label>Nom</label>
-                            <div class="form-group position-relative has-icon-left">
-                                <input id="cv_last_name" type="text" class="form-control" placeholder="" value="litanga">
-                                <div class="form-control-icon">
-                                    <i class="bi bi-person-check"></i>
-                                </div>
+                            <div class="col-sm-12 mb-3">
+                                <label for="form-address">Adresse</label>
+                                <input type="text" class="form-control" id="form-address" name="address" required>
                             </div>
-                        </div>
-                        <div class="col-sm-12 mb-3">
-                            <label>Post-nom</label>
-                            <div class="form-group position-relative has-icon-left">
-                                <input id="cv_post_name" type="text" class="form-control" placeholder="" value="litanga">
-                                <div class="form-control-icon">
-                                    <i class="bi bi-person-check"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 mb-3">
-                            <label>Téléphone</label>
-                            <div class="form-group position-relative has-icon-left">
-                                <input id="cv_phone" type="text" class="form-control" placeholder="" value="0975289532">
-                                <div class="form-control-icon">
-                                    <i class="bi bi-telephone"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <!--
-                        <div class="col-sm-12 mb-3">
-                            <label>Email</label>
-                            <div class="form-group position-relative has-icon-left">
-                                <input type="text" class="form-control" placeholder="" value="mike.litanga@gmail.com">
-                                <div class="form-control-icon">
-                                    <i class="bi bi-envelope-check"></i>
-                                </div>
-                            </div>
-                        </div>
-                        -->
-                        <div class="col-sm-12 mb-3">
-                            <label>Date du rendez-vous</label>
-                            <div class="form-group position-relative has-icon-left">
-                                <input id="cv_rdvDate" type="text" name="rdvDate" class="form-control" placeholder="10/04/2026">
-                                <div class="form-control-icon">
-                                    <i class="bi bi-calendar-event"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-8 mb-3">
-                                <label>Avenue</label>
-                                <div class="form-group position-relative has-icon-left">
-                                    <input id="cv_address_avenue" type="text" class="form-control" placeholder="">
-                                    <div class="form-control-icon">
-                                        <i class="bi bi-signpost-2"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4 mb-3">
-                                <label>Numéro</label>
-                                <div class="form-group position-relative has-icon-left">
-                                    <input id="cv_address_numero" type="text" class="form-control" placeholder="">
-                                    <div class="form-control-icon">
-                                        <i class="bi bi-geo"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 mb-3">
-                                <label>Quartier</label>
-                                <div class="form-group position-relative has-icon-left">
-                                    <input id="cv_address_quartier" type="text" class="form-control" placeholder="">
-                                    <div class="form-control-icon">
-                                        <i class="bi bi-pin-map"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                <label>Commune</label>
-                                <div class="form-group position-relative has-icon-left">
-                                    <input id="cv_address_commune" type="text" class="form-control" placeholder="">
-                                    <div class="form-control-icon">
-                                        <i class="bi bi-pin-map"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer pd-5">
-                         <div class="d-grid gap-2 w-100" style="grid-template-columns: 1fr 1fr;">
-                            <button type="button" class="btn btn-danger ml-1" data-bs-dismiss="modal">
-                                <i class="bx bx-x d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Annuler</span>
-                            </button>
-                            <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                                <i class="bx bx-check d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Créer le rendez-vous</span>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Champs API-mappés : purpose et identité -->
-                    <div class="col-sm-12 mb-3">
-                        <label>Objet de la visite</label>
-                        <div class="form-group position-relative has-icon-left">
-                            <input id="cv_purpose" type="text" class="form-control" placeholder="Objet de la visite">
-                            <div class="form-control-icon">
-                                <i class="bi bi-card-text"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6 mb-3">
-                            <label>Type pièce d'identité</label>
-                            <div class="form-group position-relative has-icon-left">
-                                <select id="cv_identity_type" class="form-control">
-                                    <option value="">Sélectionner</option>
-                                    <option value="carte_identite">Carte d'identité</option>
-                                    <option value="carte_electeur">Carte d'électeur</option>
-                                    <option value="permis">Permis de conduire</option>
-                                    <option value="passport">Passeport</option>
+                            <div class="col-sm-12 mb-3">
+                                <label for="form-id-type">Type de pièce d’identité</label>
+                                <select class="form-select" id="form-id-type" name="identity_document_type" required>
+                                    <option value="">— Choisir —</option>
+                                    <option value="carte_identite">Carte d’identité</option>
+                                    <option value="passeport">Passeport</option>
+                                    <option value="permis_conduire">Permis de conduire</option>
+                                    <option value="autre">Autre (saisie libre ci-dessous)</option>
                                 </select>
-                                <div class="form-control-icon">
-                                    <i class="bi bi-file-earmark-text"></i>
-                                </div>
+                            </div>
+                            <div class="col-sm-12 mb-3">
+                                <label for="form-id-number">Numéro de pièce</label>
+                                <input type="text" class="form-control" id="form-id-number" name="identity_document_number" required>
                             </div>
                         </div>
-                        <div class="col-sm-6 mb-3">
-                            <label>Numéro pièce d'identité</label>
-                            <div class="form-group position-relative has-icon-left">
-                                <input id="cv_identity_number" type="text" class="form-control" placeholder="CI-2026-00123">
-                                <div class="form-control-icon">
-                                    <i class="bi bi-hash"></i>
-                                </div>
+                        <div class="modal-footer pd-5">
+                            <div class="d-grid gap-2 w-100" style="grid-template-columns: 1fr 1fr;">
+                                <button type="button" class="btn btn-danger ml-1" data-bs-dismiss="modal">
+                                    <span class="d-none d-sm-block">Annuler</span>
+                                </button>
+                                <button type="submit" class="btn btn-primary ml-1">
+                                    <span class="d-none d-sm-block">Enregistrer</span>
+                                </button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -639,7 +480,7 @@
                         </button>
                     </div>
                     <div class="modal-body pd-20">
-                        
+                        <input type="hidden" id="validation-visit-id" value="">
                         <div class="col-sm-12 mb-3 text-center">
                             <i class="bi bi-check2-circle text-success fs-1"></i>
                             <h4 class="text-muted text-md">Êtes-vous sûre de valider l'entrée<br/>de ce visiteur ?</h4>
@@ -652,7 +493,7 @@
                                 <i class="bx bx-x d-block d-sm-none"></i>
                                 <span class="d-none d-sm-block">Non</span>
                             </button>
-                            <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                            <button type="button" class="btn btn-primary ml-1" id="validation-confirm-yes">
                                 <i class="bx bx-check d-block d-sm-none"></i>
                                 <span class="d-none d-sm-block">Oui</span>
                             </button>
@@ -666,24 +507,14 @@
 
     <!-- END ALL MODALS -->
 
-    <script src="vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="public/js/bootstrap.bundle.min.js"></script>
-    <script src="public/js/main.js"></script>
+    <script src="/public/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="/public/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/js/main.js"></script>
 
     <!-- Datepicker JS -->
     <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-
-            const fromInput = document.getElementById('rdvDate');
-            
-            const fromPicker = new Datepicker(fromInput, {
-                format: 'dd-mm-yyyy',
-                autohide: true,
-                minDate: new Date()
-            });
-
-        });
+        // Script Datepicker supprimé car l'élément 'rdvDate' n'existe pas
     </script>
     <script src="/public/js/session-user.js" defer></script>
     <script src="/public/js/auth-guard.js" defer></script>
@@ -691,18 +522,6 @@
     <script src="/public/js/role-menu.js" defer></script>
     <script src="/public/js/router.js" defer></script>
     <script src="/public/js/terminal.js" defer></script>
-    <script>
-      function hasTerminalAccess() {
-        const roles = (typeof window.readStoredRoles === 'function') ? window.readStoredRoles() : [];
-        return Array.isArray(roles) && roles.some(role => ALLOWED_TERMINAL_ROLES.includes((role || '').toUpperCase()));
-    }
-    </script>
-    <script>
-      if (!hasTerminalAccess()) {
-        showAccessDenied();
-        return;
-      }
-    </script>
 </body>
 
 </html>

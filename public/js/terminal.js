@@ -2,9 +2,100 @@
 
 const TERMINAL_API = {
   todayVisits: 'http://127.0.0.1:8000/api/audiences/dashboard/today',
+  receptionVisits: 'http://127.0.0.1:8000/api/audiences/dashboard/reception',
+  baseUrl: 'http://127.0.0.1:8000',
 };
 
-const ALLOWED_TERMINAL_ROLES = ['ROLE_RECEPTION', 'ROLE_TERMINAL', 'ROLE_SECURITY'];
+/** Dernières visites chargées (pour préremplir le modal « Compléter formulaire »). */
+let cachedTodayVisits = [];
+
+/**
+ * Identifiant audience dans l’URL de mise à jour : 0x + UUID sans tirets (ex. 0xAD4E54E5…).
+ */
+function toAudienceUpdatePathId(rawId) {
+  if (!rawId) return '';
+  const s = String(rawId).trim();
+  if (/^0x[0-9a-fA-F]+$/i.test(s)) return s;
+  const hex = s.replace(/-/g, '');
+  if (/^[0-9a-fA-F]{32}$/i.test(hex)) return `0x${hex.toUpperCase()}`;
+  return encodeURIComponent(s);
+}
+
+function audienceUpdateUrl(audienceId) {
+  return `${TERMINAL_API.baseUrl}/audiences/${toAudienceUpdatePathId(audienceId)}/update`;
+}
+
+function audienceVerifyUrl(audienceId) {
+  return `${TERMINAL_API.baseUrl}/audiences/${toAudienceUpdatePathId(audienceId)}/verify`;
+}
+
+const ALLOWED_TERMINAL_ROLES = ['ROLE_RECEPTION', 'ROLE_TERMINAL'];
+
+/** Chaîne comparable pour un rôle (string ou objet API / Symfony). */
+function roleToComparableString(role) {
+  if (role == null) return '';
+  if (typeof role === 'string') return role.trim().toUpperCase();
+  if (typeof role === 'object') {
+    const s =
+      role.authority ??
+      role.name ??
+      role.role ??
+      role.key ??
+      role.direction ??
+      '';
+    return String(s).trim().toUpperCase();
+  }
+  return String(role).trim().toUpperCase();
+}
+
+/** Réception / accueil : seuls ces profils appellent « Valider l'entrée » → /verify. */
+function roleAllowsReceptionValidateEntry(role) {
+  const r = roleToComparableString(role);
+  if (!r) return false;
+  return r.includes('RECEPTION') || r.includes('ACCUEIL');
+}
+
+function canReceptionValidateEntry() {
+  return readRolesWithFallback().some(roleAllowsReceptionValidateEntry);
+}
+
+/** Rôles bruts (session / profil) pour décisions UI terminal. */
+function readRolesWithFallback() {
+  let roles = [];
+  if (typeof window.readStoredRoles === 'function') {
+    roles = window.readStoredRoles() || [];
+  }
+  if (!Array.isArray(roles) || roles.length === 0) {
+    const sessionRoles = sessionStorage.getItem('currentUserRoles');
+    if (sessionRoles) {
+      try {
+        roles = JSON.parse(sessionRoles);
+      } catch (_) {
+        roles = [];
+      }
+    }
+  }
+  if (!Array.isArray(roles) || roles.length === 0) {
+    const profileJson = localStorage.getItem('currentUserProfile');
+    if (profileJson) {
+      try {
+        const profile = JSON.parse(profileJson);
+        roles = profile.roles || [];
+      } catch (_) {
+        roles = [];
+      }
+    }
+  }
+  return Array.isArray(roles) ? roles : [];
+}
+
+/** Liste des visites : réception → /reception, sinon /today (poste terminal). La sécurité utilise /security. */
+function getTerminalVisitsDashboardUrl() {
+  const roles = readRolesWithFallback();
+  const hasReceptionRole = roles.some((role) => roleToComparableString(role).includes('RECEPTION'));
+  if (hasReceptionRole) return TERMINAL_API.receptionVisits;
+  return TERMINAL_API.todayVisits;
+}
 
 // Vérifier si l'utilisateur a les rôles autorisés
 function hasTerminalAccess() {
@@ -148,15 +239,7 @@ function renderVisitRow(visit, index) {
   // Placeholder avatar (on peut améliorer ça plus tard)
   const avatarIndex = (index % 8) + 1;
   
-  // Vérifier le rôle courant pour afficher le bouton "Valider l'entrée"
-  let showValidateEntry = false;
-  if (typeof window.readStoredRoles === 'function') {
-    const roles = window.readStoredRoles();
-    showValidateEntry = Array.isArray(roles) && roles.some(role => {
-      const r = (role || '').toUpperCase();
-      return ALLOWED_TERMINAL_ROLES.includes(r);
-    });
-  }
+  const showValidateEntry = canReceptionValidateEntry();
 
   return `
     <tr data-visit-id="${visit.id}">
@@ -199,8 +282,8 @@ function renderVisitRow(visit, index) {
             Actions <i class="bi bi-caret-down-fill"></i>
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${visit.id}">
-            <a class="dropdown-item complete-visitor-btn" href="#" data-bs-target="#completeVISITOR" data-bs-toggle="modal" data-visit-id="${visit.id}" title="Compléter formulaire visiteur"><i class="bi bi-pencil-square"></i> Compléter formulaire</a>
-            ${showValidateEntry ? `<a class="dropdown-item validate-entry-btn" href="#" data-bs-target="#validation-modal" data-bs-toggle="modal" data-visit-id="${visit.id}" title="Valider formulaire visiteur"><i class="bi bi-check-circle"></i> Valider Entrée</a>` : ''}
+            <a class="dropdown-item complete-visitor-btn" href="#" data-visit-id="${visit.id}" title="Compléter formulaire visiteur"><i class="bi bi-pencil-square"></i> Compléter formulaire</a>
+            ${showValidateEntry ? `<a class="dropdown-item validate-entry-btn" href="#" data-visit-id="${visit.id}" title="Valider l'entrée du visiteur"><i class="bi bi-check-circle"></i> Valider Entrée</a>` : ''}
           </div>
         </div>
       </td>
@@ -233,7 +316,7 @@ async function loadTodayVisits() {
   tbody.innerHTML = '<tr><td colspan="11" class="text-center py-4"><div class="spinner-border text-primary"></div><br>Chargement des visites...</td></tr>';
 
   try {
-    const response = await fetch(TERMINAL_API.todayVisits, {
+    const response = await fetch(getTerminalVisitsDashboardUrl(), {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -257,17 +340,17 @@ async function loadTodayVisits() {
     const visits = data.data || data.audiences || [];
 
     if (!Array.isArray(visits) || visits.length === 0) {
+      cachedTodayVisits = [];
       tbody.innerHTML = '<tr><td colspan="11" class="text-center text-muted py-4">Aucune visite enregistrée pour aujourd\'hui.</td></tr>';
       return;
     }
+
+    cachedTodayVisits = visits;
 
     // Rendre les lignes
     tbody.innerHTML = visits
       .map((visit, index) => renderVisitRow(visit, index))
       .join('');
-
-    // Ajouter les événements aux boutons
-    attachActionListeners();
 
   } catch (error) {
     console.error('Erreur lors du chargement des visites:', error);
@@ -275,168 +358,219 @@ async function loadTodayVisits() {
   }
 }
 
-// Attacher les écouteurs aux boutons d'action
-function attachActionListeners() {
-    // Boutons "Compléter formulaire"
-    document.querySelectorAll('.complete-visitor-btn').forEach(btn => {
-      btn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        // Empêcher d'autres handlers/bootstrap d'ouvrir le modal avant le préremplissage
-        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-        const visitId = btn.dataset.visitId;
-        console.log('Compléter formulaire pour la visite:', visitId);
+function openCompleteVisitorModal(visit) {
+  const idInput = document.getElementById('form-visit-id');
+  const purposeInput = document.getElementById('form-purpose');
+  const addressInput = document.getElementById('form-address');
+  const idTypeInput = document.getElementById('form-id-type');
+  const idNumberInput = document.getElementById('form-id-number');
+  if (!idInput || !purposeInput || !addressInput || !idTypeInput || !idNumberInput) return;
 
-        // Ouvrir le modal (Bootstrap already handles via data-bs attributes)
-        // Charger les données de l'audience depuis l'API pour préremplir le formulaire
-        const token = localStorage.getItem('authToken');
-        if (!token) {
-          console.error('Token manquant, impossible de charger les détails.');
-          return;
-        }
+  const details = visit.visitor_details || {};
+  idInput.value = visit.id || '';
+  purposeInput.value = visit.purpose || '';
+  addressInput.value = details.address || '';
+  const idTypeVal = details.id_type || details.identity_document_type || '';
+  if (idTypeInput.tagName === 'SELECT') {
+    idTypeInput.querySelectorAll('option.js-dynamic-id-type').forEach(o => o.remove());
+    if (idTypeVal) {
+      const hasOption = Array.from(idTypeInput.options).some(o => o.value === idTypeVal);
+      if (!hasOption) {
+        const opt = document.createElement('option');
+        opt.value = idTypeVal;
+        opt.textContent = idTypeVal;
+        opt.className = 'js-dynamic-id-type';
+        idTypeInput.appendChild(opt);
+      }
+    }
+  }
+  idTypeInput.value = idTypeVal;
+  idNumberInput.value = details.id_number || details.identity_document_number || '';
 
-        const modal = document.getElementById('completeVISITOR');
-        if (!modal) return;
+  const modalEl = document.getElementById('completeVISITOR');
+  if (modalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+    bootstrap.Modal.getOrCreateInstance(modalEl).show();
+  } else {
+    console.error('Modal #completeVISITOR ou Bootstrap indisponible');
+    alert('Impossible d’ouvrir le formulaire (Bootstrap non chargé).');
+  }
+}
 
-        // Indiquer l'id courant
-        window.__currentCompleteAudienceId = visitId;
+function hideBootstrapDropdownFromAction(anchor) {
+  const toggle = anchor?.closest?.('.dropdown')?.querySelector?.('[data-bs-toggle="dropdown"]');
+  if (!toggle || typeof bootstrap === 'undefined' || !bootstrap.Dropdown) return;
+  const inst = bootstrap.Dropdown.getInstance(toggle) || bootstrap.Dropdown.getOrCreateInstance(toggle);
+  inst.hide();
+}
 
-        let detail = null;
-        try {
-          const res = await fetch(`http://127.0.0.1:8000/audiences/${visitId}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-          });
-          if (!res.ok) {
-            console.warn('Impossible de récupérer les détails de l\'audience', res.status);
-          } else {
-            detail = await res.json();
-            console.log('Détails audience:', detail);
-            // Préremplir quelques champs du modal si présents
-            // Récupérer les inputs du modal par ordre (structure fixe dans le template)
-            const inputs = modal.querySelectorAll('.modal-body input.form-control');
-            // mapping approximatif basé sur l'ordre du template
-            // 0: prénom, 1: nom, 2: post-nom, 3: téléphone, 4: rdvDate, 5: avenue, 6: numero, 7: quartier, 8: commune
-            if (inputs.length) {
-              // Use explicit IDs added to the modal for robust mapping
-              const firstNameEl = document.getElementById('cv_first_name');
-              const lastNameEl = document.getElementById('cv_last_name');
-              const postNameEl = document.getElementById('cv_post_name');
-              const phoneEl = document.getElementById('cv_phone');
-              const rdvEl = document.getElementById('cv_rdvDate');
-              const avenueEl = document.getElementById('cv_address_avenue');
-              const numeroEl = document.getElementById('cv_address_numero');
-              const quartierEl = document.getElementById('cv_address_quartier');
-              const communeEl = document.getElementById('cv_address_commune');
-              const purposeEl = document.getElementById('cv_purpose');
-              const idTypeEl = document.getElementById('cv_identity_type');
-              const idNumberEl = document.getElementById('cv_identity_number');
+/** Un seul listener (délégation) : évite pertes de clic / Bootstrap absent après reload du tbody. */
+function setupTerminalActionDelegation() {
+  if (window.__terminalActionDelegationBound) return;
+  window.__terminalActionDelegationBound = true;
 
-              const visitor = detail.visitor_name || '';
-              const parts = visitor.split(/\s+/);
-              if (firstNameEl) firstNameEl.value = parts[0] || '';
-              if (lastNameEl) lastNameEl.value = parts[1] || '';
-              if (postNameEl) postNameEl.value = parts.slice(2).join(' ') || '';
-              if (phoneEl) phoneEl.value = detail.visitor_phone || detail.phone || '';
-
-              if (rdvEl) {
-                try {
-                  const d = detail.scheduled_at ? new Date(detail.scheduled_at) : null;
-                  if (d && !Number.isNaN(d.getTime())) {
-                    const dd = String(d.getDate()).padStart(2,'0');
-                    const mm = String(d.getMonth()+1).padStart(2,'0');
-                    const yyyy = d.getFullYear();
-                    rdvEl.value = `${dd}-${mm}-${yyyy}`;
-                  }
-                } catch {}
-              }
-
-              const visitorAddress = detail.visitor_details?.address || detail.address || '';
-              // Try to split address into avenue/numero/quartier/commune heuristically
-              if (avenueEl) avenueEl.value = visitorAddress;
-              if (numeroEl) numeroEl.value = '';
-              if (quartierEl) quartierEl.value = '';
-              if (communeEl) communeEl.value = '';
-
-              if (purposeEl) purposeEl.value = detail.purpose || '';
-              if (idTypeEl) idTypeEl.value = detail.visitor_details?.id_type || '';
-              if (idNumberEl) idNumberEl.value = detail.visitor_details?.id_number || '';
-            }
-          }
-          // Une fois les champs préremplis, afficher le modal (au cas où Bootstrap ne l'aurait pas ouvert)
-          try {
-            const bsModal = bootstrap.Modal.getOrCreateInstance(modal);
-            bsModal.show();
-          } catch (err) {
-            console.warn('Impossible de forcer l\'ouverture du modal via Bootstrap:', err);
-          }
-        } catch (err) {
-          console.error('Erreur récupération audience:', err);
-        }
-
-        // Attacher un écouteur one-shot au bouton primaire du modal pour soumettre la mise à jour
-        const confirmBtn = modal.querySelector('.modal-footer .btn.btn-primary');
-        if (confirmBtn) {
-          // enlever ancien listener si présent
-          const newHandler = async (ev) => {
-            ev.preventDefault();
-            // construire payload minimal attendu par l'API
-            // read values from explicit IDs
-            const purpose = document.getElementById('cv_purpose')?.value || (detail && detail.purpose) || '';
-            const avenue = document.getElementById('cv_address_avenue')?.value || '';
-            const numero = document.getElementById('cv_address_numero')?.value || '';
-            const quartier = document.getElementById('cv_address_quartier')?.value || '';
-            const commune = document.getElementById('cv_address_commune')?.value || '';
-            const address = [avenue, numero, quartier, commune].filter(Boolean).join(', ') || (detail && (detail.visitor_details?.address || detail.address)) || '';
-            const identity_type = document.getElementById('cv_identity_type')?.value || (detail && detail.visitor_details?.id_type) || '';
-            const identity_number = document.getElementById('cv_identity_number')?.value || (detail && detail.visitor_details?.id_number) || '';
-
-            const payload = {
-              purpose: purpose,
-              address: address,
-              identity_document_type: identity_type,
-              identity_document_number: identity_number
-            };
-
-            try {
-              const updateRes = await fetch(`http://127.0.0.1:8000/audiences/${visitId}/update`, {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(payload)
-              });
-              const updateData = await updateRes.json();
-              if (!updateRes.ok) {
-                console.error('Erreur update audience', updateRes.status, updateData);
-                alert('Erreur lors de la mise à jour : ' + (updateData?.message || updateRes.status));
-                return;
-              }
-              console.log('Audience mise à jour:', updateData);
-              // Fermer modal et recharger la liste (plus simple et sûr)
-              var bsModal = bootstrap.Modal.getInstance(modal);
-              if (bsModal) bsModal.hide();
-              loadTodayVisits();
-            } catch (err) {
-              console.error('Erreur envoi update:', err);
-              alert('Erreur lors de la mise à jour.');
-            }
-          };
-          // remove previous handlers by cloning node
-          const cloned = confirmBtn.cloneNode(true);
-          confirmBtn.parentNode.replaceChild(cloned, confirmBtn);
-          cloned.addEventListener('click', newHandler);
-        }
-      });
-    });
-
-  // Boutons "Valider Entrée"
-  document.querySelectorAll('.validate-entry-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+  document.body.addEventListener('click', (e) => {
+    const completeBtn = e.target.closest('.complete-visitor-btn');
+    if (completeBtn) {
       e.preventDefault();
-      const visitId = btn.dataset.visitId;
-      console.log('Valider l\'entrée pour la visite:', visitId);
-      // TODO: Implémenter la logique de validation
-    });
+      e.stopPropagation();
+      hideBootstrapDropdownFromAction(completeBtn);
+      const visitId = completeBtn.dataset.visitId;
+      const visit = cachedTodayVisits.find((v) => String(v.id) === String(visitId));
+      if (!visit) {
+        console.warn('Visite introuvable dans le cache:', visitId, cachedTodayVisits?.length);
+        alert('Visite introuvable. Réessayez après rechargement de la liste.');
+        return;
+      }
+      openCompleteVisitorModal(visit);
+      return;
+    }
+
+    const validateBtn = e.target.closest('.validate-entry-btn');
+    if (validateBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      hideBootstrapDropdownFromAction(validateBtn);
+      const visitId = validateBtn.dataset.visitId;
+      const hidden = document.getElementById('validation-visit-id');
+      if (hidden) hidden.value = visitId || '';
+      const modalEl = document.getElementById('validation-modal');
+      if (modalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+        bootstrap.Modal.getOrCreateInstance(modalEl).show();
+      } else {
+        alert('Interface modale indisponible (Bootstrap non chargé). Vérifiez les chemins des scripts.');
+      }
+    }
+  });
+}
+
+let completeVisitorFormBound = false;
+
+function setupCompleteVisitorForm() {
+  const form = document.getElementById('complete-visitor-form');
+  if (!form || completeVisitorFormBound) return;
+  completeVisitorFormBound = true;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = document.getElementById('form-visit-id')?.value;
+    const purpose = document.getElementById('form-purpose')?.value?.trim() || '';
+    const address = document.getElementById('form-address')?.value?.trim() || '';
+    const identity_document_type = document.getElementById('form-id-type')?.value?.trim() || '';
+    const identity_document_number = document.getElementById('form-id-number')?.value?.trim() || '';
+
+    if (!id) {
+      alert('Identifiant de visite manquant.');
+      return;
+    }
+
+    const payload = {
+      purpose,
+      address,
+      identity_document_type,
+      identity_document_number,
+    };
+
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      alert('Session expirée. Veuillez vous reconnecter.');
+      return;
+    }
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
+
+    try {
+      const res = await fetch(audienceUpdateUrl(id), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      let data = {};
+      try {
+        data = await res.json();
+      } catch (_) {
+        /* corps non JSON */
+      }
+
+      if (res.ok) {
+        alert(data.message || 'Audience mise à jour avec succès.');
+        const modalEl = document.getElementById('completeVISITOR');
+        if (modalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+          const inst = bootstrap.Modal.getInstance(modalEl);
+          if (inst) inst.hide();
+        }
+        loadTodayVisits();
+      } else {
+        const msg = data.message || data.detail || `Erreur (${res.status})`;
+        alert(msg);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Erreur réseau ou serveur.');
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
+  });
+}
+
+let validationModalBound = false;
+
+function setupValidationModal() {
+  const yesBtn = document.getElementById('validation-confirm-yes');
+  if (!yesBtn || validationModalBound) return;
+  validationModalBound = true;
+
+  yesBtn.addEventListener('click', async () => {
+    const id = document.getElementById('validation-visit-id')?.value?.trim();
+    if (!id) {
+      alert('Identifiant de visite manquant.');
+      return;
+    }
+    if (!canReceptionValidateEntry()) {
+      alert('Action réservée à la réception.');
+      return;
+    }
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      alert('Session expirée. Veuillez vous reconnecter.');
+      return;
+    }
+
+    yesBtn.disabled = true;
+    try {
+      const res = await fetch(audienceVerifyUrl(id), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: '{}',
+      });
+      let data = {};
+      try {
+        data = await res.json();
+      } catch (_) {}
+      if (res.ok) {
+        alert(data.message || 'Visite vérifiée avec succès.');
+        const modalEl = document.getElementById('validation-modal');
+        if (modalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+          const inst = bootstrap.Modal.getInstance(modalEl);
+          if (inst) inst.hide();
+        }
+        loadTodayVisits();
+      } else {
+        alert(data.message || data.detail || `Erreur (${res.status})`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Erreur réseau ou serveur.');
+    } finally {
+      yesBtn.disabled = false;
+    }
   });
 }
 
@@ -455,6 +589,9 @@ function initializeTerminal() {
   }
   
   console.log('Accès autorisé - Chargement des visites');
+  setupTerminalActionDelegation();
+  setupCompleteVisitorForm();
+  setupValidationModal();
   loadTodayVisits();
 
   // Rechargement automatique toutes les 30 secondes
@@ -489,4 +626,10 @@ window.debugTerminal = {
   loadTodayVisits,
   formatDate,
   extractNames,
+  get cachedVisits() {
+    return cachedTodayVisits;
+  },
+  audienceUpdateUrl,
+  audienceVerifyUrl,
+  toAudienceUpdatePathId,
 };
