@@ -439,10 +439,10 @@
                                 <label for="form-id-type">Type de pièce d’identité</label>
                                 <select class="form-select" id="form-id-type" name="identity_document_type" required>
                                     <option value="">— Choisir —</option>
-                                    <option value="carte_identite">Carte d’identité</option>
-                                    <option value="passeport">Passeport</option>
-                                    <option value="permis_conduire">Permis de conduire</option>
-                                    <option value="autre">Autre (saisie libre ci-dessous)</option>
+                                    <option value="CNI">Carte d’identité</option>
+                                    <option value="PASSEPORT">Passeport</option>
+                                    <option value="PERMIS">Permis de conduire</option>
+                                    <option value="AUTRE">Autre (saisie libre ci-dessous)</option>
                                 </select>
                             </div>
                             <div class="col-sm-12 mb-3">
@@ -510,6 +510,27 @@
     <script src="/public/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="/public/js/bootstrap.bundle.min.js"></script>
     <script src="/public/js/main.js"></script>
+
+        <script>
+            // Polyfill Bootstrap getOrCreateInstance for older builds that don't expose it
+            (function () {
+                try {
+                    if (typeof window.bootstrap === 'undefined') return;
+                    if (window.bootstrap.Modal && typeof window.bootstrap.Modal.getOrCreateInstance !== 'function') {
+                        window.bootstrap.Modal.getOrCreateInstance = function (el) {
+                            return (window.bootstrap.Modal.getInstance && window.bootstrap.Modal.getInstance(el)) || new window.bootstrap.Modal(el);
+                        };
+                    }
+                    if (window.bootstrap.Dropdown && typeof window.bootstrap.Dropdown.getOrCreateInstance !== 'function') {
+                        window.bootstrap.Dropdown.getOrCreateInstance = function (el) {
+                            return (window.bootstrap.Dropdown.getInstance && window.bootstrap.Dropdown.getInstance(el)) || new window.bootstrap.Dropdown(el);
+                        };
+                    }
+                } catch (e) {
+                    console.warn('Bootstrap compat polyfill failed', e);
+                }
+            })();
+        </script>
 
     <!-- Datepicker JS -->
     <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js"></script>

@@ -6,6 +6,77 @@ const TERMINAL_API = {
   baseUrl: 'http://127.0.0.1:8000',
 };
 
+// Helper: compat layer for Bootstrap instances (Modal / Dropdown) across versions
+function getBootstrapModalInstance(el, createIfMissing = true) {
+  if (!el) return null;
+  if (typeof bootstrap === 'undefined' || !bootstrap.Modal) return null;
+  // Prefer getOrCreateInstance when available (Bootstrap 5+)
+  if (typeof bootstrap.Modal.getOrCreateInstance === 'function') {
+    try { return bootstrap.Modal.getOrCreateInstance(el); } catch (e) { /* fallthrough */ }
+  }
+  // Fallback to getInstance then constructor
+  if (typeof bootstrap.Modal.getInstance === 'function') {
+    const inst = bootstrap.Modal.getInstance(el);
+    if (inst) return inst;
+  }
+  if (createIfMissing) {
+    try { return new bootstrap.Modal(el); } catch (e) { return null; }
+  }
+  return null;
+}
+
+function getBootstrapDropdownInstance(el, createIfMissing = true) {
+  if (!el) return null;
+  if (typeof bootstrap === 'undefined' || !bootstrap.Dropdown) return null;
+  if (typeof bootstrap.Dropdown.getOrCreateInstance === 'function') {
+    try { return bootstrap.Dropdown.getOrCreateInstance(el); } catch (e) { /* fallthrough */ }
+  }
+  if (typeof bootstrap.Dropdown.getInstance === 'function') {
+    const inst = bootstrap.Dropdown.getInstance(el);
+    if (inst) return inst;
+  }
+  if (createIfMissing) {
+    try { return new bootstrap.Dropdown(el); } catch (e) { return null; }
+  }
+  return null;
+}
+
+// Normalise différentes représentations du type de document vers les codes canoniques
+function mapToCanonicalIdType(v) {
+  if (!v) return '';
+  const s = String(v).trim();
+  const lower = s.toLowerCase();
+  if (lower === 'cni' || lower === 'carte_identite' || lower.includes('carte')) return 'CNI';
+  if (lower === 'passeport' || lower.includes('passeport')) return 'PASSEPORT';
+  if (lower === 'permis' || lower === 'permis_conduire' || lower.includes('permis')) return 'PERMIS';
+  if (lower === 'autre' || lower === 'other') return 'AUTRE';
+  const up = s.toUpperCase();
+  if (['CNI', 'PASSEPORT', 'PERMIS', 'AUTRE'].includes(up)) return up;
+  return '';
+}
+
+// Expose helpers globally and polyfill getOrCreateInstance when possible to support other scripts
+try {
+  if (typeof window !== 'undefined') {
+    window.getBootstrapModalInstance = getBootstrapModalInstance;
+    window.getBootstrapDropdownInstance = getBootstrapDropdownInstance;
+  }
+  if (typeof bootstrap !== 'undefined') {
+    if (bootstrap.Modal && typeof bootstrap.Modal.getOrCreateInstance !== 'function') {
+      bootstrap.Modal.getOrCreateInstance = function (el) {
+        return (bootstrap.Modal.getInstance && bootstrap.Modal.getInstance(el)) || new bootstrap.Modal(el);
+      };
+    }
+    if (bootstrap.Dropdown && typeof bootstrap.Dropdown.getOrCreateInstance !== 'function') {
+      bootstrap.Dropdown.getOrCreateInstance = function (el) {
+        return (bootstrap.Dropdown.getInstance && bootstrap.Dropdown.getInstance(el)) || new bootstrap.Dropdown(el);
+      };
+    }
+  }
+} catch (e) {
+  // ignore polyfill errors
+}
+
 /** Dernières visites chargées (pour préremplir le modal « Compléter formulaire »). */
 let cachedTodayVisits = [];
 
@@ -360,47 +431,76 @@ async function loadTodayVisits() {
 
 function openCompleteVisitorModal(visit) {
   const idInput = document.getElementById('form-visit-id');
-  const purposeInput = document.getElementById('form-purpose');
+  const purposeInput = document.getElementById('form-purpose'); // optional
   const addressInput = document.getElementById('form-address');
   const idTypeInput = document.getElementById('form-id-type');
   const idNumberInput = document.getElementById('form-id-number');
-  if (!idInput || !purposeInput || !addressInput || !idTypeInput || !idNumberInput) return;
+  if (!idInput || !addressInput || !idTypeInput || !idNumberInput) {
+    console.error('openCompleteVisitorModal: champs du formulaire manquants', { idInput, addressInput, idTypeInput, idNumberInput });
+    return;
+  }
 
   const details = visit.visitor_details || {};
   idInput.value = visit.id || '';
-  purposeInput.value = visit.purpose || '';
+  if (purposeInput) purposeInput.value = visit.purpose || '';
   addressInput.value = details.address || '';
   const idTypeVal = details.id_type || details.identity_document_type || '';
+  const canonicalIdType = mapToCanonicalIdType(idTypeVal) || '';
   if (idTypeInput.tagName === 'SELECT') {
     idTypeInput.querySelectorAll('option.js-dynamic-id-type').forEach(o => o.remove());
-    if (idTypeVal) {
-      const hasOption = Array.from(idTypeInput.options).some(o => o.value === idTypeVal);
-      if (!hasOption) {
+    if (canonicalIdType && canonicalIdType === 'AUTRE' && idTypeVal && !['autre','AUTRE'].includes(String(idTypeVal))) {
+      // Show the actual stored value but submit the canonical 'AUTRE' code to the server.
+      const optionAutre = Array.from(idTypeInput.options).find(o => o.value === 'AUTRE');
+      if (optionAutre) {
+        optionAutre.textContent = `${idTypeVal} (Autre)`;
+        optionAutre.classList.add('js-dynamic-id-type');
+      } else {
         const opt = document.createElement('option');
-        opt.value = idTypeVal;
-        opt.textContent = idTypeVal;
+        opt.value = 'AUTRE';
+        opt.textContent = `${idTypeVal} (Autre)`;
         opt.className = 'js-dynamic-id-type';
         idTypeInput.appendChild(opt);
       }
+      idTypeInput.value = 'AUTRE';
+    } else {
+      // Ensure option for the canonical code exists (should, after HTML change)
+      const hasOption = Array.from(idTypeInput.options).some(o => o.value === canonicalIdType);
+      if (!hasOption && canonicalIdType) {
+        const opt = document.createElement('option');
+        opt.value = canonicalIdType;
+        opt.textContent = canonicalIdType;
+        opt.className = 'js-dynamic-id-type';
+        idTypeInput.appendChild(opt);
+      }
+      idTypeInput.value = canonicalIdType;
     }
   }
-  idTypeInput.value = idTypeVal;
   idNumberInput.value = details.id_number || details.identity_document_number || '';
 
   const modalEl = document.getElementById('completeVISITOR');
-  if (modalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-    bootstrap.Modal.getOrCreateInstance(modalEl).show();
-  } else {
-    console.error('Modal #completeVISITOR ou Bootstrap indisponible');
-    alert('Impossible d’ouvrir le formulaire (Bootstrap non chargé).');
+  console.log('openCompleteVisitorModal: attempting to show modal for', visit?.id);
+  if (!modalEl) {
+    console.error('openCompleteVisitorModal: modal element #completeVISITOR introuvable');
+    return;
   }
+    const modalInst = getBootstrapModalInstance(modalEl, true);
+    if (modalInst) {
+      try { modalInst.show(); } catch (err) { console.error('openCompleteVisitorModal: erreur modalInst.show()', err); }
+    } else {
+      console.warn('openCompleteVisitorModal: impossible d obtenir une instance Bootstrap Modal — fallback display');
+      modalEl.classList.add('show');
+      modalEl.style.display = 'block';
+      modalEl.removeAttribute('aria-hidden');
+    }
 }
 
 function hideBootstrapDropdownFromAction(anchor) {
   const toggle = anchor?.closest?.('.dropdown')?.querySelector?.('[data-bs-toggle="dropdown"]');
-  if (!toggle || typeof bootstrap === 'undefined' || !bootstrap.Dropdown) return;
-  const inst = bootstrap.Dropdown.getInstance(toggle) || bootstrap.Dropdown.getOrCreateInstance(toggle);
-  inst.hide();
+  if (!toggle) return;
+  const inst = getBootstrapDropdownInstance(toggle, false);
+  if (inst && typeof inst.hide === 'function') {
+    try { inst.hide(); } catch (err) { console.error('Erreur hide dropdown', err); }
+  }
 }
 
 /** Un seul listener (délégation) : évite pertes de clic / Bootstrap absent après reload du tbody. */
@@ -409,36 +509,43 @@ function setupTerminalActionDelegation() {
   window.__terminalActionDelegationBound = true;
 
   document.body.addEventListener('click', (e) => {
-    const completeBtn = e.target.closest('.complete-visitor-btn');
-    if (completeBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      hideBootstrapDropdownFromAction(completeBtn);
-      const visitId = completeBtn.dataset.visitId;
-      const visit = cachedTodayVisits.find((v) => String(v.id) === String(visitId));
-      if (!visit) {
-        console.warn('Visite introuvable dans le cache:', visitId, cachedTodayVisits?.length);
-        alert('Visite introuvable. Réessayez après rechargement de la liste.');
+    try {
+      const completeBtn = e.target.closest('.complete-visitor-btn');
+      if (completeBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        hideBootstrapDropdownFromAction(completeBtn);
+        const visitId = completeBtn.dataset.visitId;
+        console.log('setupTerminalActionDelegation: complete-visitor-btn clicked =>', visitId, 'target:', e.target);
+        const visit = cachedTodayVisits.find((v) => String(v.id) === String(visitId));
+        if (!visit) {
+          console.warn('Visite introuvable dans le cache:', visitId, cachedTodayVisits?.length);
+          alert('Visite introuvable. Réessayez après rechargement de la liste.');
+          return;
+        }
+        openCompleteVisitorModal(visit);
         return;
       }
-      openCompleteVisitorModal(visit);
-      return;
-    }
 
-    const validateBtn = e.target.closest('.validate-entry-btn');
-    if (validateBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      hideBootstrapDropdownFromAction(validateBtn);
-      const visitId = validateBtn.dataset.visitId;
-      const hidden = document.getElementById('validation-visit-id');
-      if (hidden) hidden.value = visitId || '';
-      const modalEl = document.getElementById('validation-modal');
-      if (modalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-        bootstrap.Modal.getOrCreateInstance(modalEl).show();
-      } else {
-        alert('Interface modale indisponible (Bootstrap non chargé). Vérifiez les chemins des scripts.');
+      const validateBtn = e.target.closest('.validate-entry-btn');
+      if (validateBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        hideBootstrapDropdownFromAction(validateBtn);
+        const visitId = validateBtn.dataset.visitId;
+        const hidden = document.getElementById('validation-visit-id');
+        if (hidden) hidden.value = visitId || '';
+        const modalEl = document.getElementById('validation-modal');
+        if (modalEl) {
+          const inst = getBootstrapModalInstance(modalEl, true);
+          if (inst) try { inst.show(); } catch (err) { console.error('Erreur show validation modal', err); }
+          else alert('Interface modale indisponible (Bootstrap non chargé). Vérifiez les chemins des scripts.');
+        } else {
+          alert('Interface modale indisponible (élément manquant).');
+        }
       }
+    } catch (err) {
+      console.error('Error in delegated click handler', err);
     }
   });
 }
@@ -477,40 +584,130 @@ function setupCompleteVisitorForm() {
     }
 
     const submitBtn = form.querySelector('button[type="submit"]');
+
+    // Validate identity document type on client-side to avoid server 4xx errors
+    const ALLOWED_ID_TYPES = ['CNI', 'PASSEPORT', 'PERMIS', 'AUTRE'];
+    if (identity_document_type) {
+      const idTypeUpper = identity_document_type.toUpperCase();
+      if (!ALLOWED_ID_TYPES.includes(idTypeUpper)) {
+        // Surface the same message returned by the server to guide the user
+        alert('Type de document invalide. Valeurs acceptées : CNI, PASSEPORT, PERMIS, AUTRE.');
+        if (submitBtn) submitBtn.disabled = false;
+        return;
+      }
+      // Normalise la valeur envoyée
+      payload.identity_document_type = idTypeUpper;
+    }
+
     if (submitBtn) submitBtn.disabled = true;
 
     try {
-      const res = await fetch(audienceUpdateUrl(id), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
+      let res = null;
 
-      let data = {};
+      // Attempt 1: PUT (preferred)
       try {
-        data = await res.json();
-      } catch (_) {
-        /* corps non JSON */
+        console.log('Submitting audience update payload:', payload);
+        res = await fetch(audienceUpdateUrl(id), {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        });
+      } catch (e) {
+        console.error('Network error on PUT attempt', e);
+        throw e;
       }
 
-      if (res.ok) {
+      // If server rejects PUT (405), try a sequence of fallbacks to help diagnose / work around server restrictions
+      if (res && res.status === 405) {
+        console.warn('Update endpoint returned 405 for PUT — retrying with POST + X-HTTP-Method-Override');
+        try {
+          res = await fetch(audienceUpdateUrl(id), {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-HTTP-Method-Override': 'PUT',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(payload),
+          });
+        } catch (e) {
+          console.error('Fallback POST+override attempt failed', e);
+        }
+      }
+
+      // Further fallback: try plain POST
+      if (res && res.status === 405) {
+        console.warn('POST+override returned 405 — retrying plain POST');
+        try {
+          res = await fetch(audienceUpdateUrl(id), {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(payload),
+          });
+        } catch (e) {
+          console.error('Fallback plain POST attempt failed', e);
+        }
+      }
+
+      // Final fallback: try PATCH (some servers prefer PATCH semantics)
+      if (res && res.status === 405) {
+        console.warn('Plain POST returned 405 — retrying PATCH');
+        try {
+          res = await fetch(audienceUpdateUrl(id), {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(payload),
+          });
+        } catch (e) {
+          console.error('Fallback PATCH attempt failed', e);
+        }
+      }
+
+      // Try to extract JSON or text for diagnostics
+      let data = {};
+      let bodyText = '';
+      try {
+        bodyText = await res.text();
+        try { data = JSON.parse(bodyText); } catch (_) { /* not JSON */ }
+      } catch (e) {
+        console.error('Error reading response body', e);
+      }
+
+      if (res && res.ok) {
+        console.log('Update successful, server response:', data || bodyText);
         alert(data.message || 'Audience mise à jour avec succès.');
         const modalEl = document.getElementById('completeVISITOR');
-        if (modalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-          const inst = bootstrap.Modal.getInstance(modalEl);
-          if (inst) inst.hide();
+        if (modalEl) {
+          const inst = getBootstrapModalInstance(modalEl, false);
+          if (inst) try { inst.hide(); } catch (err) { console.error('Erreur hide modal', err); }
         }
         loadTodayVisits();
       } else {
-        const msg = data.message || data.detail || `Erreur (${res.status})`;
-        alert(msg);
+        // Build a helpful diagnostic message for the user/developer
+        const status = res ? res.status : 'no-response';
+        const allowMethods = res && res.headers ? (res.headers.get('access-control-allow-methods') || res.headers.get('Access-Control-Allow-Methods')) : null;
+        const allowOrigin = res && res.headers ? (res.headers.get('access-control-allow-origin') || res.headers.get('Access-Control-Allow-Origin')) : null;
+        let msg = data.message || data.detail || `Erreur (${status})`;
+        msg += '\n\nDétails serveur:\n';
+        msg += `Status: ${status}\n`;
+        if (allowMethods) msg += `Access-Control-Allow-Methods: ${allowMethods}\n`;
+        if (allowOrigin) msg += `Access-Control-Allow-Origin: ${allowOrigin}\n`;
+        if (bodyText) msg += `Réponse: ${bodyText}\n`;
+        console.warn('Update response diagnostics:', { status, allowMethods, allowOrigin, bodyText, payload });
+        alert(msg + '\n\nPayload envoyé:\n' + JSON.stringify(payload, null, 2));
       }
     } catch (err) {
       console.error(err);
-      alert('Erreur réseau ou serveur.');
+      alert('Erreur réseau ou serveur. Consultez la console pour plus de détails.');
     } finally {
       if (submitBtn) submitBtn.disabled = false;
     }
@@ -557,9 +754,9 @@ function setupValidationModal() {
       if (res.ok) {
         alert(data.message || 'Visite vérifiée avec succès.');
         const modalEl = document.getElementById('validation-modal');
-        if (modalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-          const inst = bootstrap.Modal.getInstance(modalEl);
-          if (inst) inst.hide();
+        if (modalEl) {
+          const inst = getBootstrapModalInstance(modalEl, false);
+          if (inst) try { inst.hide(); } catch (err) { console.error('Erreur hide validation modal', err); }
         }
         loadTodayVisits();
       } else {

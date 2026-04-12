@@ -646,9 +646,42 @@
                                     <img id="security-checkin-preview-visitor" alt="" class="img-fluid rounded d-none" style="max-height:160px;">
                                     <span id="security-checkin-placeholder-visitor" class="text-muted small">Aucune image</span>
                                 </div>
+                                    <div id="security-checkin-card-visitor" class="card mt-2 d-none" style="max-width: 200px; margin: 0 auto;">
+                                        <img id="security-checkin-card-visitor-img" class="card-img-top" alt="Preview visiteur" style="max-height:160px; object-fit:cover;" />
+                                        <div class="card-body p-2">
+                                            <p class="card-text small mb-0">Photo visiteur</p>
+                                        </div>
+                                    </div>
                                 <button type="button" class="btn btn-outline-primary btn-sm mt-2 w-100" id="security-checkin-open-visitor">
                                     <i class="bi bi-camera"></i> Prendre / choisir photo
                                 </button>
+                                
+                                <button type="button" class="btn btn-outline-secondary btn-sm mt-2 w-100" id="security-checkin-start-visitor">
+                                    <i class="bi bi-play-circle"></i> Démarrer la caméra
+                                </button>
+
+                                <label class="btn btn-outline-secondary btn-sm mt-2 w-100 mb-0" for="security-checkin-file-visitor">
+                                    <i class="bi bi-upload"></i> Importer une photo
+                                    <input id="security-checkin-file-visitor" type="file" accept="image/*" class="d-none" />
+                                </label>
+
+                                <button type="button" class="btn btn-danger btn-sm mt-2 w-100 d-none" id="security-checkin-remove-visitor">
+                                    <i class="bi bi-trash"></i> Retirer
+                                </button>
+                                <!-- Inline capture UI for visitor (best UX: capture inside same modal) -->
+                                <div id="inline-photo-capture" class="mt-3 d-none">
+                                    <div class="camera-container text-center mb-2">
+                                        <video id="video_inline" autoplay playsinline style="max-width:100%;"></video>
+                                        <canvas id="canvas_inline" class="d-none" style="max-width:100%;"></canvas>
+                                        <div class="face-guide"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <button class="btn btn-primary btn-sm px-4" id="captureBtn_inline">Capturer</button>
+                                        <button class="btn btn-warning btn-sm d-none" id="retakeBtn_inline">Reprendre</button>
+                                        <button class="btn btn-success btn-sm d-none" id="saveBtn_inline">Enregistrer</button>
+                                        <button class="btn btn-secondary btn-sm" id="cancel_inline">Annuler</button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Pièce d’identité</label>
@@ -656,9 +689,42 @@
                                     <img id="security-checkin-preview-identity" alt="" class="img-fluid rounded d-none" style="max-height:160px;">
                                     <span id="security-checkin-placeholder-identity" class="text-muted small">Aucune image</span>
                                 </div>
+                                    <div id="security-checkin-card-identity" class="card mt-2 d-none" style="max-width: 200px; margin: 0 auto;">
+                                        <img id="security-checkin-card-identity-img" class="card-img-top" alt="Preview identité" style="max-height:160px; object-fit:cover;" />
+                                        <div class="card-body p-2">
+                                            <p class="card-text small mb-0">Photo pièce</p>
+                                        </div>
+                                    </div>
                                 <button type="button" class="btn btn-outline-primary btn-sm mt-2 w-100" id="security-checkin-open-identity">
                                     <i class="bi bi-card-image"></i> Photographier la pièce
                                 </button>
+                                
+                                <button type="button" class="btn btn-outline-secondary btn-sm mt-2 w-100" id="security-checkin-start-identity">
+                                    <i class="bi bi-play-circle"></i> Démarrer la caméra
+                                </button>
+
+                                <label class="btn btn-outline-secondary btn-sm mt-2 w-100 mb-0" for="security-checkin-file-identity">
+                                    <i class="bi bi-upload"></i> Importer une photo
+                                    <input id="security-checkin-file-identity" type="file" accept="image/*" class="d-none" />
+                                </label>
+
+                                <button type="button" class="btn btn-danger btn-sm mt-2 w-100 d-none" id="security-checkin-remove-identity">
+                                    <i class="bi bi-trash"></i> Retirer
+                                </button>
+                                <!-- Inline capture UI for identity document -->
+                                <div id="inline-id-capture" class="mt-3 d-none">
+                                    <div class="scanner-wrapper text-center mb-2">
+                                        <video id="scannerVideo_inline" autoplay playsinline style="max-width:100%;"></video>
+                                        <canvas id="scannerCanvas_inline" class="d-none" style="max-width:100%;"></canvas>
+                                        <div class="document-overlay"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <button class="btn btn-primary btn-sm px-4" id="docCapture_inline">Capturer</button>
+                                        <button class="btn btn-warning btn-sm d-none" id="docRetake_inline">Reprendre</button>
+                                        <button class="btn btn-success btn-sm d-none" id="docSave_inline">Enregistrer</button>
+                                        <button class="btn btn-secondary btn-sm" id="cancel_id_inline">Annuler</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <p id="security-checkin-error" class="text-danger small mt-3 d-none"></p>
@@ -673,6 +739,9 @@
             </div>
         </div>
         <!-- END CHECKIN MODAL -->
+
+    <!-- Toast container for quick feedback -->
+    <div id="security-toast-container" class="position-fixed top-0 end-0 p-3" style="z-index:1080;"></div>
 
 
     <!-- END ALL MODALS -->
@@ -690,17 +759,41 @@
         const retakeBtn = document.getElementById('retakeBtn');
         const saveBtn = document.getElementById('saveBtn');
 
-        navigator.mediaDevices.getUserMedia({video:true}).then(stream=>{
+        // Initialize visitor camera stream and only enable capture when stream is truly ready
+        try { captureBtn.disabled = true; } catch (e) {}
+        const enableVisitorCaptureIfReady = () => {
+            try {
+                // Ensure the video has dimensions before enabling capture
+                if (video.videoWidth > 0 && video.videoHeight > 0) {
+                    captureBtn.disabled = false;
+                }
+            } catch (e) {}
+        };
+
+        navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
             video.srcObject = stream;
+            // Try to start playback; enable when playing or metadata loaded with valid size
+            video.play().then(enableVisitorCaptureIfReady).catch(() => {
+                video.addEventListener('playing', enableVisitorCaptureIfReady, { once: true });
+                video.addEventListener('loadedmetadata', enableVisitorCaptureIfReady, { once: true });
+            });
+        }).catch((err) => {
+            console.error('getUserMedia visitor camera failed', err);
+            try { const pl = document.getElementById('security-checkin-error'); if (pl) { pl.textContent = 'Accès à la caméra refusé.'; pl.classList.remove('d-none'); } } catch(e){}
         });
 
-        captureBtn.onclick = function(){
+        captureBtn.onclick = function () {
+            // Prevent capture if video not ready
+            if (!video || video.videoWidth === 0 || video.videoHeight === 0) {
+                alert('La caméra n\'est pas prête. Réessayez.');
+                return;
+            }
 
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
 
             const ctx = canvas.getContext('2d');
-            ctx.drawImage(video,0,0);
+            ctx.drawImage(video, 0, 0);
 
             video.classList.add('d-none');
             canvas.classList.remove('d-none');
@@ -710,22 +803,16 @@
             saveBtn.classList.remove('d-none');
 
             document.querySelector('.camera-container').classList.add('flash');
-
-            setTimeout(()=>{
-                document.querySelector('.camera-container').classList.remove('flash');
-            },200);
-
+            setTimeout(() => { document.querySelector('.camera-container').classList.remove('flash'); }, 200);
         };
 
-        retakeBtn.onclick = function(){
-
+        retakeBtn.onclick = function () {
             video.classList.remove('d-none');
             canvas.classList.add('d-none');
 
             captureBtn.classList.remove('d-none');
             retakeBtn.classList.add('d-none');
             saveBtn.classList.add('d-none');
-
         };
 
         /* scanner document */
@@ -737,9 +824,18 @@
         const docRetake = document.getElementById("docRetake");
         const docSave = document.getElementById("docSave");
 
+        // Initialize scanner camera stream and only enable capture when ready
+        try {
+            docCapture.disabled = true;
+        } catch (e) {}
         navigator.mediaDevices.getUserMedia({video:true}).then(stream=>{
             scannerVideo.srcObject = stream;
-        });
+                        const enableScannerCapture = () => { try { if (scannerVideo.videoWidth > 0 && scannerVideo.videoHeight > 0) docCapture.disabled = false; } catch(e) {} };
+                        scannerVideo.play().then(enableScannerCapture).catch(() => {
+                            scannerVideo.addEventListener('playing', enableScannerCapture, { once: true });
+                            scannerVideo.addEventListener('loadedmetadata', enableScannerCapture, { once: true });
+                        });
+        }).catch((err)=>{ console.error('getUserMedia scanner camera failed', err); try { const pl = document.getElementById('security-checkin-error'); if (pl) { pl.textContent = 'Accès à la caméra refusé.'; pl.classList.remove('d-none'); } } catch(e){} });
 
         docCapture.onclick = function(){
 
