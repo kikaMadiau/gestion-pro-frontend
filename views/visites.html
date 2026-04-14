@@ -350,28 +350,76 @@
 
     <!-- VISITOR'S ACCESS TRACKING MODAL -->
     <div class="modal fade text-left" id="visitor-progression" tabindex="-1" role="dialog"
-        aria-labelledby="myModalLabel17" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title w-100 text-center" id="myModalLabel17">Progression du visiteur</h4>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="bi bi-x-circle"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="visit-progression-content">
-                        <p class="text-center text-muted">Chargement des détails...</p>
+            aria-labelledby="myModalLabel17" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
+                role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title w-100 text-center" id="myModalLabel17">Progression du visiteur</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="bi bi-x-circle"></i>
+                        </button>
                     </div>
-                </div>
-                <div class="modal-footer pd-0 full-modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                        <span class="d-none d-sm-block">Fermer</span>
-                    </button>
+                    <div class="modal-body">
+                        <table class="table">
+                            <tr>
+                                <td class="col-auto text-center">Details : Mike Litanga / 0823123900 / mike.litanga@gmail.com</td>
+                            </tr>
+                        </table>
+                        <div class="workflow">
+                          <div class="workflow-step completed">
+                            <div class="workflow-icon">
+                                <i class="bi bi-check2-circle"></i>
+                            </div>
+                            <div class="workflow-content">
+                                <h6>Sécurité Terminal</h6>
+                                <small>Agent : Aristote Mbuyi</small>
+                                <small><br/>01/04/2026 10:00:23</small>
+                            </div>
+                          </div>
+                          <div class="workflow-step canceled">
+                            <div class="workflow-icon">
+                                <i class="bi bi-x-circle"></i>
+                            </div>
+                            <div class="workflow-content">
+                                <h6>Sécurité CNS</h6>
+                                <small>Agent : Floribert Makengo</small>
+                                <small><br/>01/04/2026 10:00:23</small>
+                            </div>
+                          </div>
+                          <div class="workflow-step pending">
+                            <div class="workflow-icon">
+                                <i class="bi bi-exclamation-triangle"></i>
+                            </div>
+                            <div class="workflow-content">
+                                <h6>Protocol Direction</h6>
+                                <small>Agent : Judith Bolia</small>
+                                <small><br/>01/04/2026 10:00:23</small>
+                            </div>
+                          </div>
+                          <div class="workflow-step locked">
+                            <div class="workflow-icon">
+                                <i class="bi bi-dash-circle"></i>
+                            </div>
+                            <div class="workflow-content">
+                                <h6>Visite terminée</h6>
+                                <small>Agent : Chantal Rafiki</small>
+                                <small><br/>01/04/2026 10:00:23</small>
+                            </div>
+                          </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer pd-0 full-modal-footer">
+                        <button type="button" class="btn btn-primary"
+                            data-bs-dismiss="modal">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Fermer</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     <!-- END VISITOR'S ACCESS TRACKING MODAL -->
 
     <!-- ADD A VISITOR MODAL -->

@@ -13,6 +13,7 @@
     { path: '/verification', file: 'verification.html' },
     { path: `/security`, file: `page-security.html`, protected: true },
     { path: `/terminal`, file: `page-terminal.html`, protected: true, allowedRoles: TERMINAL_ROLES },
+    {path: '/rapport', file: 'rapport_template.html', }
   ];
 
   const routeMap = new Map();
@@ -31,14 +32,16 @@
         routeMap.get('/terminal') ||
         routeMap.get('/visites') ||
         routeMap.get('/dashboard') ||
-        routeMap.get('/login')
+        routeMap.get('/login')||
+        routeMap.get('/rapport')
       );
     }
     if (hasSecurityRole()) {
       return (
         routeMap.get('/security') ||
         routeMap.get('/dashboard') ||
-        routeMap.get('/login')
+        routeMap.get('/login')||
+        routeMap.get('/rapport')
       );
     }
     return routeMap.get('/visites') || routeMap.get('/dashboard') || routeMap.get('/login');

@@ -22,6 +22,7 @@ const friendlyRoutes = new Map([
   ['/verification', 'verification.html'],
   ['/security', 'page-security.html'],
   ['/terminal', 'page-terminal.html'],
+  ['/rapport', 'rapport_template.html']
 ]);
 
 const mimeTypes = {

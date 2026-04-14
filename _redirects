@@ -6,3 +6,5 @@
 /verification  /views/verification.html  200
 /terminal  /views/page-terminal.html  200
 /security  /views/page-security.html  200
+/rapport  /views/rapport_template.html  200
+
